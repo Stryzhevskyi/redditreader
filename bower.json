@@ -1,0 +1,25 @@
+{
+  "name": "reddit.reader",
+  "version": "0.0.0",
+  "authors": [
+    "Sergey Stryzhevskyi <stryzhevsky.s@gmail.com>"
+  ],
+  "description": "Reddit reader for UA Web Challange VII",
+  "moduleType": [
+    "amd"
+  ],
+  "license": "MIT",
+  "ignore": [
+    "**/.*",
+    "node_modules",
+    "bower_components",
+    "test",
+    "tests"
+  ],
+  "dependencies": {
+    "bootstrap": "~3.3.4",
+    "backbone": "~1.1.2",
+    "requirejs": "~2.1.17",
+    "reddit.js": "~0.1.3"
+  }
+}

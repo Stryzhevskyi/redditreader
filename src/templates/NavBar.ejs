@@ -1,0 +1,8 @@
+<ul class="nav navbar-nav">
+    {{ _.each(o.items, function(item){ }}
+    <li
+    {{= item.isSelected ? 'class="active"' : '' }}>
+    <a data-section="{{= item.section }}" class="fake-link navlink">{{= item.name }}</a>
+    </li>
+    {{ }); }}
+</ul>

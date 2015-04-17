@@ -5,10 +5,11 @@
     <title>Reddit Reader</title>
     <link href="./css/libs.css" rel="stylesheet" type="text/css"/>
     <link href="./css/app.css" rel="stylesheet" type="text/css"/>
-    <script src="../bower_components/requirejs/require.js" data-main="js/require.config" type="text/javascript"></script>
+    <script src="../bower_components/requirejs/require.js" data-main="js/require.config"
+            type="text/javascript"></script>
     <script>
         if ('serviceWorker' in navigator) {
-            navigator.serviceWorker.register('./sw.js', {scope: './'}).then(function() {
+            navigator.serviceWorker.register('./sw.js', {scope: './'}).then(function () {
                 // Registration was successful. Now, check to see whether the service worker is controlling the page.
                 if (navigator.serviceWorker.controller) {
                     // If .controller is set, then this page is being actively controlled by the service worker.
@@ -18,7 +19,7 @@
                     // control. Until that happens, the service worker's fetch handler won't be used.
                     console.log('please reload');
                 }
-            }).catch(function(error) {
+            }).catch(function (error) {
                 // Something went wrong during registration. The service-worker.js file
                 // might be unavailable or contain a syntax error.
                 console.warn(error);
@@ -27,40 +28,7 @@
     </script>
 </head>
 <body id="root">
-<!-- Fixed navbar -->
-<nav class="navbar navbar-default navbar-fixed-top">
-    <div class="container">
-        <div class="navbar-header">
-            <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar" aria-expanded="false" aria-controls="navbar">
-                <span class="sr-only">Toggle navigation</span>
-                <span class="icon-bar"></span>
-                <span class="icon-bar"></span>
-                <span class="icon-bar"></span>
-            </button>
-            <a class="navbar-brand" href="#">Project name</a>
-        </div>
-        <div id="navbar" class="navbar-collapse collapse">
 
-            <ul class="nav navbar-nav navbar-right">
-
-            </ul>
-        </div><!--/.nav-collapse -->
-    </div>
-</nav>
-
-<div class="container">
-
-    <!-- Main component for a primary marketing message or call to action -->
-    <div class="jumbotron">
-        <h1>Navbar example</h1>
-        <p>This example is a quick exercise to illustrate how the default, static and fixed to top navbar work. It includes the responsive CSS and HTML, so it also adapts to your viewport and device.</p>
-        <p>To see the difference between static and fixed top navbars, just scroll.</p>
-        <p>
-            <a class="btn btn-lg btn-primary" href="../../components/#navbar" role="button">View navbar docs &raquo;</a>
-        </p>
-    </div>
-
-</div> <!-- /container -->
 
 </body>
 </html>

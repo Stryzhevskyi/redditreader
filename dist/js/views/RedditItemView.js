@@ -1,7 +1,7 @@
 /**
  * Created by Sergei on 14.04.15.
  */
-define(["backbone", "underscore", "jquery", "tpls"], function(Backbone, _, $, tpls){
+define(["backbone", "underscore", "jquery", "tpls"], function (Backbone, _, $, tpls) {
     var RedditItemView = Backbone.View.extend({
         template: tpls['RedditItem'],
         render: function () {

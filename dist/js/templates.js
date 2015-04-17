@@ -1,9 +1,10 @@
 define(function () {
-var tpls = {};
-tpls['Comment'] = function(o){var __t,__p='',__j=Array.prototype.join,print=function(){__p+=__j.call(arguments,'');};__p+='';return __p;};
-tpls['Main'] = function(o){var __t,__p='',__j=Array.prototype.join,print=function(){__p+=__j.call(arguments,'');};__p+=''+((__t=( Date.now() ))==null?'':__t)+'';return __p;};
-tpls['NavBar'] = function(o){var __t,__p='',__j=Array.prototype.join,print=function(){__p+=__j.call(arguments,'');};__p+='<ul class="nav navbar-nav">\n    '; _.each(o.items, function(item){ __p+='\n        <li'+((__t=( item.isSelected ? 'class="active"' : '' ))==null?'':__t)+'>\n            <a data-section="'+((__t=( item.section ))==null?'':__t)+'" class="fake-link navlink">'+((__t=( item.name ))==null?'':__t)+'</a>\n        </li>\n    '; }); __p+='\n</ul>';return __p;};
-tpls['Post'] = function(o){var __t,__p='',__j=Array.prototype.join,print=function(){__p+=__j.call(arguments,'');};__p+='<div>\n    '+((__t=( o.name ))==null?'':__t)+'\n</div>';return __p;};
-tpls['SubReddit'] = function(o){var __t,__p='',__j=Array.prototype.join,print=function(){__p+=__j.call(arguments,'');};__p+='<span>'+((__t=( link ))==null?'':__t)+'<b>'+((__t=( count ))==null?'':__t)+'</b></span>';return __p;};
-return tpls;
+var $$ = {};
+$$['Comment'] = function(o){var __t,__p='',__j=Array.prototype.join,print=function(){__p+=__j.call(arguments,'');};__p+='';return __p;};
+$$['Main'] = function(o){var __t,__p='',__j=Array.prototype.join,print=function(){__p+=__j.call(arguments,'');};__p+=''+((__t=( Date.now() ))==null?'':__t)+'';return __p;};
+$$['NavBar'] = function(o){var __t,__p='',__j=Array.prototype.join,print=function(){__p+=__j.call(arguments,'');};__p+='<ul class="nav navbar-nav">\r\n    '; o.items.forEach(function(item){ __p+='\r\n    <li\r\n    '+((__t=( item.isSelected ? 'class="active"' : '' ))==null?'':__t)+'>\r\n        <a href="?/'+((__t=( item.section ))==null?'':__t)+'" class="fake-link navlink">'+((__t=( item.name ))==null?'':__t)+'</a>\r\n    </li>\r\n    '; }); __p+='\r\n</ul>\r\n<ul class="nav navbar-nav navbar-right">\r\n\r\n</ul>';return __p;};
+$$['Post'] = function(o){var __t,__p='',__j=Array.prototype.join,print=function(){__p+=__j.call(arguments,'');};__p+='<div>\r\n    '+((__t=( o.name ))==null?'':__t)+'\r\n</div>';return __p;};
+$$['Root'] = function(o){var __t,__p='',__j=Array.prototype.join,print=function(){__p+=__j.call(arguments,'');};__p+='<nav class="navbar navbar-default navbar-fixed-top">\r\n    <div class="container">\r\n        <div class="navbar-header">\r\n            <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar"\r\n                    aria-expanded="false" aria-controls="navbar">\r\n                <span class="sr-only">Toggle navigation</span>\r\n                <span class="icon-bar"></span>\r\n                <span class="icon-bar"></span>\r\n                <span class="icon-bar"></span>\r\n            </button>\r\n            <a class="navbar-brand" href="'+((__t=( $$.$app.rootUrl ))==null?'':__t)+'">/</a>\r\n        </div>\r\n        <div id="navbar" class="navbar-collapse collapse">\r\n\r\n        </div>\r\n    </div>\r\n</nav>\r\n\r\n<div id="container" class="container">\r\n\r\n</div>';return __p;};
+$$['SubReddit'] = function(o){var __t,__p='',__j=Array.prototype.join,print=function(){__p+=__j.call(arguments,'');};__p+='<span>'+((__t=( link ))==null?'':__t)+'<b>'+((__t=( count ))==null?'':__t)+'</b></span>';return __p;};
+return $$;
 });

@@ -7,13 +7,13 @@ define(["backbone", "underscore", "jquery", "reddit"],
             initialize: function () {
                 console.log('Posts coll init');
             },
-            _fetch : function(params){
+            _fetch: function (params) {
                 console.log(params);
-                return new Promise(function(resolve, reject){
-                    reddit.hot(params).fetch(function(res) {
+                return new Promise(function (resolve, reject) {
+                    reddit.hot(params).fetch(function (res) {
                         console.log(res);
                         resolve(res);
-                    }, function(error){
+                    }, function (error) {
                         reject(error);
                     });
                 });

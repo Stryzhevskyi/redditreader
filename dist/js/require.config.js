@@ -15,12 +15,12 @@
             "utils": 'modules/utils',
             "reddit": '../../bower_components/reddit.js/reddit'
         },
-        shim : {
-            "reddit" : {
-                exports : 'reddit'
+        shim: {
+            "reddit": {
+                exports: 'reddit'
             },
-            "bootstrap" : {
-                deps : ["jquery"]
+            "bootstrap": {
+                deps: ["jquery"]
             }
         },
         deps: [

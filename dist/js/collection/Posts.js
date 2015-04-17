@@ -1,18 +1,20 @@
 /**
  * Created by Sergei on 16.04.15.
  */
-define(["backbone", "undersore", "jquery", "reddit"],
+define(["backbone", "underscore", "jquery", "reddit"],
     function (Backbone, _, $, reddit) {
         var Posts = Backbone.Collection.extend({
             initialize: function () {
                 console.log('Posts coll init');
             },
-            _fetch : function(params){
+            _fetch: function (params) {
                 console.log(params);
-                return new Promise(function(resolve, reject){
-                    reddit.hot().fetch(function(res) {
+                return new Promise(function (resolve, reject) {
+                    reddit.hot(params).fetch(function (res) {
                         console.log(res);
                         resolve(res);
+                    }, function (error) {
+                        reject(error);
                     });
                 });
             },
@@ -28,4 +30,6 @@ define(["backbone", "undersore", "jquery", "reddit"],
                 }
             }
         });
+
+        return Posts;
     });

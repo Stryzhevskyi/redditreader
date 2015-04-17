@@ -1,53 +1,59 @@
 /**
  * Created by Sergei on 14.04.15.
  */
-define(function(require) {
-  var App = require("app");
-  var Backbone = require("backbone");
-  var Controller = require("controller");
+define(function (require) {
+	var App = require("app");
+	var Backbone = require("backbone");
+	var Controller = require("controller");
 
-  App.controller = new Controller();
+	var controller = App.controller = Controller();
 
-  var Router = Backbone.Router.extend({
-    constructor: function() {
-      App.controller.onStart();
-    },
-    routes: {
-      "?/:id/:section/:page": "redditSectionPage",
-      "?/:id/:section": "redditSection",
-      "?/:id": "redditMain",
-      "?/": "root",
-      "": "empty"
-    },
+	var router = null;
+	var Router = Backbone.Router.extend({
+		initialize: function (options) {
 
-    empty: function() {
-      console.log('empty');
-      App.navigate('?/');
-    },
+		},
 
-    root: function() {
-      console.log('root');
-      App.controller.onRoot();
-    },
+		routes: {
+			"?/:id/s/:section/t/:topic": "topic",
+			"?/:id/s/:section/p/:page": "sectionPage",
+			"?/:id/s/:section": "section",
+			"?/:id": "main",
+			"?/": "empty",
+			"": "empty",
+			"*": "empty"
+		},
 
-    redditMain: function(id) {
-      console.log('redditMain', id);
-      App.controller.onRedditPage(id, App.contants.SECTIONS[0], 0);
-    },
+		empty: function () {
+			console.log('empty');
+			App.navigate('?/*/s/hot');
+		},
 
-    redditSection: function(id, section) {
-      console.log('redditPage', id, section);
-      App.controller.onRedditPage(id, section, 0);
-    },
+		main: function (id) {
+			console.log('redditMain', id);
+			controller.onRedditPage(id, App.contants.SECTIONS[0], 0);
+		},
 
-    redditSectionPage: function(id, section, page) {
-      console.log('redditPage', id, page);
-      App.controller.onRedditPage(id, page, page);
-    }
-
-  });
+		topic: function (id, topic) {
+			console.log('topic', id, topic);
+			controller.onRedditTopic(id, topic, 0);
+		},
 
 
-  App.router = new Router();
-  return App;
+		section: function (id, section) {
+			console.log('section', id, section);
+			controller.onRedditPage(id, section, 0);
+		},
+
+		sectionPage: function (id, section, page) {
+			console.log('sectionPage', id, page);
+			controller.onRedditPage(id, page, page);
+		}
+
+	});
+
+
+	return function(params){
+		return router ? router : router = new Router(params);
+	};
 });

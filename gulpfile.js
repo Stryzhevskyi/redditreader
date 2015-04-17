@@ -57,7 +57,7 @@ gulp.task('templates', function () {
     gulp.src('src/templates/*.ejs')
         .pipe(html2tpl(
             'templates.js',
-            {varName: 'tpls'},
+            {varName: '$$'},
             {
                 evaluate: /\{\{(.+?)\}\}/g,
                 interpolate: /\{\{=(.+?)\}\}/g,
@@ -150,7 +150,7 @@ gulp.task('server', function () {
 
 gulp.task('dist', ['rbuild', 'cssmin']);
 
-gulp.task('build', ['js', 'libs', 'index', 'styles', 'locales', 'templates']);
+gulp.task('build', ['js', 'libs', 'index', 'styles', 'templates']);
 
 gulp.task('default', [
     'build',

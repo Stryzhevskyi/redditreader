@@ -6,11 +6,9 @@ define(["app", "backbone", "underscore", "jquery"], function (App, Backbone, _, 
         initialize: function () {
             console.log('Posts coll init');
         },
-        events : {
-
-        },
-        template : App.tpls['Main'],
-        render : function(){
+        events: {},
+        template: App.tpls['Main'],
+        render: function () {
             this.$el.html(this.template(this.model));
         }
     });

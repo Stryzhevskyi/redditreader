@@ -3,22 +3,26 @@
  */
 
 define(["app", "backbone", "tpls", "underscore", "utils"],
-    function (App, Backbone, tpls, _, utils) {
-        tpls._ = _;
-        tpls.$utils = utils;
-        _.templateSettings = {
-            evaluate: /\{\{(.+?)\}\}/g,
-            interpolate: /\{\{=(.+?)\}\}/g,
-            escape: /\{\{-(.+?)\}\}/g,
-            variable: 'o'
-        };
+	function (App, Backbone, tpls, _, utils) {
+		tpls._ = _;
+		tpls.$utils = utils;
+		_.templateSettings = {
+			evaluate: /\{\{(.+?)\}\}/g,
+			interpolate: /\{\{=(.+?)\}\}/g,
+			escape: /\{\{-(.+?)\}\}/g,
+			variable: 'o'
+		};
+		tpls.$app = App;
+		tpls.$href = function (link) {
+			return App.rootUrl + link;
+		};
 
-        App.tpls = tpls;
-        App.utils = utils;
+		App.tpls = tpls;
+		App.utils = utils;
 
 
-        require(["router"], function (App) {
-            App.start();
-            App.channel.trigger('app:start');
-        });
-    });
+		require(["router"], function (Router) {
+			App.router = Router();
+			App.start();
+		});
+	});

@@ -2,38 +2,56 @@
  * Created by Sergei on 16.04.15.
  */
 define(function (require) {
-    var App = require("app");
-    var _ = require("underscore");
-    var $ = require("jquery");
-    var Backbone = require("backbone");
-    var utils = require("utils");
+	var App = require("app");
+	var _ = require("underscore");
+	var $ = require("jquery");
+	var Backbone = require("backbone");
+	var utils = require("utils");
 
-    var Controller = function () {
-        var self = this;
+	var controller = null;
+	var Controller = function () {
+		console.log('Controller created');
+		App.channel.on('app:start', this.onStart);
+	};
+	Controller.prototype = {
+		constructor: Controller,
 
-        self.onStart = function(){
-            console.log('onStart');
-            App.$navbar.html(App.tpls['NavBar']({
-                items : utils.getNavbarList()
-            }));
-            App.$navbar.on('click', '.fake-link.navlink', function(ev){
-                var section = ev.currentTarget.dataset.section;
+		onStart: function () {
+			console.log('onStart');
+			App.$root.html(App.tpls['Root']({
+				items: utils.getNavbarList()
+			}));
 
-                App.navigate();
-            });
-        };
+			App.$navbar = $('#navbar');
+			App.$container = $('#container');
 
-        self.onRoot = function () {
-            console.log('onRoot');
-            self.onRedditMain();
-            // App.navigate()
-        };
+			App.$navbar.html(App.tpls['NavBar']({
+				items: utils.getNavbarList()
+			}));
 
-        self.onRedditPage = function (id, section, page) {
-            console.log('onRedditPage', id, section, page);
-        };
-    };
+			App.$root.on('click', '.fake-link', function (ev) {
+				ev.preventDefault();
+				var link = ev.currentTarget.getAttribute('href');
+				App.navigate(link);
+			});
+		},
 
-    //App.controller = new Controller();
-    return Controller;
+		onRoot: function () {
+			console.log('onRoot');
+			self.onRedditMain();
+			// App.navigate()
+		},
+
+		onRedditPage: function (id, section, page) {
+			console.log('onRedditPage', id, section, page);
+		},
+
+		onRedditTopic : function(id, topic){
+
+		}
+	};
+
+	return function(params){
+		return controller ? controller : controller = new Controller(params);
+	};
 });

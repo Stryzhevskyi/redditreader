@@ -15,39 +15,55 @@ define(function (require) {
 		},
 
 		routes: {
-			"?/:id/s/:section/t/:topic": "topic",
-			"?/:id/s/:section/p/:page": "sectionPage",
+			"?/:id/t/:topic": "topic",
+			"?/:id/s/:section/a/:after": "sectionPage",
 			"?/:id/s/:section": "section",
 			"?/:id": "main",
-			"?/": "empty",
+			"?/": "root",
+			"?/s/:section": "rootSection",
 			"": "empty",
-			"*": "empty"
+			".*": "empty"
 		},
 
 		empty: function () {
 			console.log('empty');
-			App.navigate('?/*/s/hot');
+			App.navigate('/?/');
+		},
+
+		root: function () {
+			console.log('root');
+            controller.onRedditPage(null, App.constants.SECTIONS[0], null);
+		},
+
+		rootSection: function (section) {
+			console.log('root');
+            App.navModel.setState(null, section, null, null);
+            controller.onRedditPage(null, section, null);
 		},
 
 		main: function (id) {
 			console.log('redditMain', id);
-			controller.onRedditPage(id, App.contants.SECTIONS[0], 0);
+            App.navModel.setState(id, App.constants.SECTIONS[0], null, null);
+            controller.onRedditPage(id, App.constants.SECTIONS[0], null);
 		},
 
 		topic: function (id, topic) {
 			console.log('topic', id, topic);
-			controller.onRedditTopic(id, topic, 0);
+            App.navModel.setState(id, null, null, topic);
+            controller.onRedditTopic(id, topic, null);
 		},
 
 
 		section: function (id, section) {
 			console.log('section', id, section);
-			controller.onRedditPage(id, section, 0);
+            App.navModel.setState(id, section, null, null);
+			controller.onRedditPage(id, section, null);
 		},
 
-		sectionPage: function (id, section, page) {
-			console.log('sectionPage', id, page);
-			controller.onRedditPage(id, page, page);
+		sectionPage: function (id, section, after) {
+			console.log('sectionPage', id, after);
+            App.navModel.setState(id, section, after, null);
+			controller.onRedditPage(id, after, after);
 		}
 
 	});

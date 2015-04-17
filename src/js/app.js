@@ -1,7 +1,12 @@
 /**
  * Created by Sergei on 14.04.15.
  */
-define(["backbone", "const"], function (Backbone, constants) {
+define(function (require) {
+    var Backbone = require("backbone");
+    var constants = require("const");
+    var navModel = require("models/NavModel");
+
+
 
 	var channel = _.extend({}, Backbone.Events);
 	channel.on('all', function () {
@@ -10,6 +15,7 @@ define(["backbone", "const"], function (Backbone, constants) {
 			['channel : '].concat(Array.prototype.slice.call(arguments))
 		);
 	});
+    Backbone.channel = channel;
 
 	var App = {
 		start: function () {
@@ -21,6 +27,8 @@ define(["backbone", "const"], function (Backbone, constants) {
 			trigger = (trigger === undefined) ? true : !!trigger;
 			App.router.navigate(url, {trigger: trigger});
 		},
+        navModel : navModel,
+        views : {},
 		channel: channel,
 		constants: constants,
 		$root: $('#root'),

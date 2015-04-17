@@ -13,7 +13,7 @@
                 // Registration was successful. Now, check to see whether the service worker is controlling the page.
                 if (navigator.serviceWorker.controller) {
                     // If .controller is set, then this page is being actively controlled by the service worker.
-                    console.log('controller');
+                    console.log('Service worker Registered');
                 } else {
                     // If .controller isn't set, then prompt the user to reload the page so that the service worker can take
                     // control. Until that happens, the service worker's fetch handler won't be used.

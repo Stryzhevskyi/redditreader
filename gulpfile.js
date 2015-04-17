@@ -139,11 +139,11 @@ gulp.task('server', function () {
         .pipe(webserver({
             livereload: true,
             directoryListing: false,
-            open: 'https://127.0.0.1:8000/dist/',
-            https: {
-                key: './private/server.key',
-                cert: './private/server.crt'
-            }
+            open: 'http://127.0.0.1:8000/dist/',
+            //https: {
+            //    key: './private/server.key',
+            //    cert: './private/server.crt'
+            //}
         }));
 });
 

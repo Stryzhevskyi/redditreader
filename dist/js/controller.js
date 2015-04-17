@@ -7,10 +7,15 @@ define(function (require) {
 	var $ = require("jquery");
 	var Backbone = require("backbone");
 	var utils = require("utils");
+    var postsCollection = require("collections/Posts");
+
+    var PostListView = require("views/PostListView");
 
 	var controller = null;
 	var Controller = function () {
 		console.log('Controller created');
+
+        App.postsCollection = postsCollection;
 		App.channel.on('app:start', this.onStart);
 	};
 	Controller.prototype = {
@@ -18,16 +23,20 @@ define(function (require) {
 
 		onStart: function () {
 			console.log('onStart');
-			App.$root.html(App.tpls['Root']({
-				items: utils.getNavbarList()
-			}));
+			App.$root.html(App.tpls['Root']({   }));
 
 			App.$navbar = $('#navbar');
 			App.$container = $('#container');
 
-			App.$navbar.html(App.tpls['NavBar']({
-				items: utils.getNavbarList()
-			}));
+
+            App.navModel.on('change', function(){
+                App.$navbar.html(App.tpls['NavBar']({
+                    items: App.navModel.getNavBarObject()
+                }));
+            });
+            App.navModel.trigger('change');
+
+            App.views.postListView = new PostListView({collection : postsCollection});
 
 			App.$root.on('click', '.fake-link', function (ev) {
 				ev.preventDefault();
@@ -36,14 +45,13 @@ define(function (require) {
 			});
 		},
 
-		onRoot: function () {
-			console.log('onRoot');
-			self.onRedditMain();
-			// App.navigate()
-		},
-
 		onRedditPage: function (id, section, page) {
 			console.log('onRedditPage', id, section, page);
+            App.postsCollection
+                .fetch(App.navModel.toJSON())
+                .then(function(coll){
+
+                });
 		},
 
 		onRedditTopic : function(id, topic){

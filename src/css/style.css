@@ -1,3 +1,29 @@
 body {
     padding-top: 70px;
 }
+
+.thing {
+    clear: both;
+    position: relative;
+    border-bottom: 1px black dashed;
+    margin: 8px 0px;
+    padding-bottom: 8px;
+}
+
+.thing div.score {
+    position: absolute;
+    left: -50px;
+    font-size: 20px;
+    top: 0;
+    width: 80px;
+}
+
+.thing .thumbnail {
+    float: left;
+    font-size: 0;
+    margin: 0;
+    margin-right: 5px;
+    margin-bottom: 2px;
+    overflow: hidden;
+    width: 70px;
+}

@@ -1,8 +1,8 @@
 <ul class="nav navbar-nav">
     {{ o.items.forEach(function(item){ }}
     <li
-    {{= item.isSelected ? 'class="active"' : '' }}>
-        <a href="?/{{= item.section }}" class="fake-link navlink">{{= item.name }}</a>
+    {{= item.isCurrent ? 'class="active"' : '' }}>
+        <a href="?/{{= item.href }}" class="fake-link navlink">{{= item.name }}</a>
     </li>
     {{ }); }}
 </ul>

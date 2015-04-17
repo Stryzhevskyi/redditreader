@@ -13,7 +13,9 @@ define(["backbone", "underscore", "jquery", "reddit"],
                 console.log(params);
                 var self = this;
                 return new Promise(function (resolve, reject) {
-                    var query = reddit[params.section]();
+                    var query = params.pageId
+                        ? reddit[params.section](params.pageId)
+                        : reddit[params.section]();
                     if (params.after) {
                         query = query.after(params.after);
                     } else if (params.before) {
@@ -34,8 +36,8 @@ define(["backbone", "underscore", "jquery", "reddit"],
             },
             parse: function (coll) {
                 return _.map(coll, function (el) {
-                        var thumbnail = el.data.thumbnail;
-                    if(thumbnail === 'nsfw' || thumbnail === 'self')
+                    var thumbnail = el.data.thumbnail;
+                    if (thumbnail === 'nsfw' || thumbnail === 'self')
                         el.data.thumbnail = '';
                     return el.data;
                 });

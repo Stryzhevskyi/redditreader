@@ -80,6 +80,13 @@ gulp.task('styles', function () {
         .pipe(gulp.dest('dist/css/'));
 });
 
+gulp.task('fonts', function () {
+    return gulp
+        .src(['bower_components/bootstrap/fonts/*'])
+        .pipe(rename(function (path) {}))
+        .pipe(gulp.dest('dist/fonts/'));
+});
+
 gulp.task('watch', function () {
     watch('src/templates/*', function () {
         gulp.start('templates');
@@ -109,16 +116,16 @@ gulp.task('watch', function () {
 gulp.task('rbuild', function () {
     rjs({
         baseUrl: 'dist/js/',
-        mainConfigFile: 'dist/js/loader.js',
+        mainConfigFile: 'dist/js/require.config.js',
         findNestedDependencies: true,
         out: 'build.js',
         name: 'loader'
     })
-        .pipe(gulp.dest('./dest/'))
+        .pipe(gulp.dest('./dist/'))
         .pipe(stripDebug())
-        .pipe(gulp.dest('./dest/'))
+        .pipe(gulp.dest('./dist/'))
         .pipe(uglify())
-        .pipe(gulp.dest('./dest/min'));
+        .pipe(gulp.dest('./dist/min'));
 });
 
 
@@ -150,7 +157,7 @@ gulp.task('server', function () {
 
 gulp.task('dist', ['rbuild', 'cssmin']);
 
-gulp.task('build', ['js', 'libs', 'index', 'styles', 'templates']);
+gulp.task('build', ['js', 'libs', 'index', 'styles', 'templates', 'fonts']);
 
 gulp.task('default', [
     'build',

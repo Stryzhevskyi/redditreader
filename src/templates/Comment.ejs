@@ -1,0 +1,24 @@
+<li class="comment-item">
+    <div id="comment-{{= o.id }}">
+        {{ if('count' in o){ }}
+        <span class="load-mode-comments text-muted"> show {{= o.count }} more</span>
+        {{ }else{ }}
+
+        <i class="mdi-navigation-unfold-less collapse-tree" data-collapsed="false"></i>
+        <strong class="author">{{= o.author }}</strong>
+        <span class="text-muted">{{= o.score}} points  {{= $$.$utils.timeDiff(o.created) }}</span>
+        <a href="{{= $$.$permalink(o.id) }}" class="fake-link">
+            <i class="glyphicon glyphicon-link text-muted" title="permalink"></i>
+        </a>
+        <br/>
+        <div class="comment-content">{{= $$.$decode(o.body_html, o) }}</div>
+
+        <ul class="replies">
+            {{ o.replies.forEach(function(node){ }}
+                {{= $$.Comment(node) }}
+            {{ }); }}
+        </ul>
+
+        {{ } }}
+    </div>
+</li>

@@ -3,16 +3,20 @@
  */
 define(["backbone", "underscore", "jquery", "reddit"],
     function (Backbone, _, $, reddit) {
+        'use strict';
+
         var Posts = Backbone.Collection.extend({
             initialize: function () {
                 console.log('Posts coll init');
             },
-            before: null,
             after: null,
             _fetch: function (params) {
                 console.log(params);
                 var self = this;
                 return new Promise(function (resolve, reject) {
+                    if(!reddit.hasOwnProperty(params.section)){
+                        params.section = 'hot';
+                    }
                     var query = params.pageId
                         ? reddit[params.section](params.pageId)
                         : reddit[params.section]();
@@ -27,7 +31,7 @@ define(["backbone", "underscore", "jquery", "reddit"],
                         console.log(res);
                         self.set(self.parse(res));
                         self.trigger('sync', self, res.data.children, params);
-                        Backbone.channel.trigger('posts:sync', {before: res.data.before, after: res.data.after});
+                        Backbone.channel.trigger('posts:sync', {after: self.after});
                         resolve(res);
                     }, function (error) {
                         reject(error);
@@ -37,11 +41,9 @@ define(["backbone", "underscore", "jquery", "reddit"],
             parse: function (res) {
                 var coll = res.data.children;
                 this.after = res.data.after;
-                this.before = res.data.before;
                 return _.map(coll, function (el) {
                     var thumbnail = el.data.thumbnail;
                     if (thumbnail === 'nsfw' || thumbnail === 'self' || thumbnail === 'default'){
-                        //el.data.thumbnail = '';
                         el.data.thumbnailClassName = thumbnail;
                     }
                     return el.data;

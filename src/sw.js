@@ -1,6 +1,7 @@
 /**
  * Created by Sergei on 15.04.15.
  */
+'use strict';
 var CACHE_NAME = 'reddit-cache-v1';
 var urlsToCache = [];
 this.addEventListener('fetch', function (event) {

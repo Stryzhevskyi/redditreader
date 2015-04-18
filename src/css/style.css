@@ -2,6 +2,7 @@ body {
     padding-top: 70px;
 }
 
+/*POST (reddit item)*/
 .thing {
     clear: both;
     position: relative;
@@ -30,7 +31,7 @@ body {
 
 .thing div.score {
     position: absolute;
-    left: -62px;
+    left: -68px;
     font-size: 20px;
     text-align: right;
     top: 0;
@@ -54,7 +55,6 @@ body {
 .thing .thumbnail {
     background-size: cover !important;
     margin: 0;
-    /*width: 100px;*/
     padding: 0;
     border-radius: 0;
     -webkit-order: 0;
@@ -79,47 +79,33 @@ body {
     height: 82px;
 }
 
-.flex-container {
-    display: -ms-flexbox;
-    display: -webkit-flex;
-    display: flex;
-    -webkit-flex-direction: row;
-    -ms-flex-direction: row;
-    flex-direction: row;
-    -webkit-flex-wrap: nowrap;
-    -ms-flex-wrap: nowrap;
-    flex-wrap: nowrap;
-    -webkit-justify-content: flex-start;
-    -ms-flex-pack: start;
-    justify-content: flex-start;
-    -webkit-align-content: stretch;
-    -ms-flex-line-pack: stretch;
-    align-content: stretch;
-    -webkit-align-items: flex-start;
-    -ms-flex-align: start;
-    align-items: flex-start;
+/*COMMENT*/
+.comment-list, .comment-list ul {
+    list-style: none !important;
+}
+.comment-item{
+    position: relative;
 }
 
-.flex-item:nth-child(1) {
-    -webkit-order: 0;
-    -ms-flex-order: 0;
-    order: 0;
-    -webkit-flex: 0 1 auto;
-    -ms-flex: 0 1 auto;
-    flex: 0 1 auto;
-    -webkit-align-self: stretch;
-    -ms-flex-item-align: stretch;
-    align-self: stretch;
+.comment-item .collapse-tree {
+    position: absolute;
+    top: -1px;
+    left: -25px;
+    font-size: 20px;
+    cursor: pointer;
 }
 
-.flex-item:nth-child(2) {
-    -webkit-order: 0;
-    -ms-flex-order: 0;
-    order: 0;
-    -webkit-flex: 2 1 auto;
-    -ms-flex: 2 1 auto;
-    flex: 2 1 auto;
-    -webkit-align-self: stretch;
-    -ms-flex-item-align: stretch;
-    align-self: stretch;
+.comment-list .replies{
+    position: relative;
+    padding-left: 8px;
+}
+
+.progress-indicator {
+    display: block;
+    position: fixed;
+    top: 0;
+    left: 0;
+    height: 4px;
+    width: 100%;
+    z-index: 1031;
 }

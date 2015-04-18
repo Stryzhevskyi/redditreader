@@ -2,6 +2,8 @@
  * Created by Sergei on 14.04.15.
  */
 define(function (require) {
+    'use strict';
+
     var Backbone = require("backbone");
     var constants = require("const");
     var navModel = require("models/NavModel");
@@ -20,7 +22,8 @@ define(function (require) {
 	var App = {
 		start: function () {
 			console.log('history start');
-			Backbone.history.start({pushState: true, root: window.location.pathname});
+            App.controller.onStart();
+            Backbone.history.start({pushState: true, root: window.location.pathname});
 			App.channel.trigger('app:start');
 		},
 		navigate: function (url, trigger) {

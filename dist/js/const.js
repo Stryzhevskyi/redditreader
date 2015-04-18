@@ -3,6 +3,7 @@
  */
 define([], function () {
     return {
-        SECTIONS: ['hot', 'new', 'top', 'controversial']
+        SECTIONS: ['hot', 'new', 'top', 'controversial'],
+        COMMENT_ORDER: ['top', 'hot', 'new', 'old', 'best', 'controversial']
     };
 });

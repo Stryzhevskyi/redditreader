@@ -1,7 +1,8 @@
 /**
  * Created by Sergei on 17.04.15.
  */
-define(["const", "backbone", "utils", "collections/Posts"], function (constants, Backbone, utils, postCollection) {
+define(["const", "backbone", "utils"], function (constants, Backbone, utils) {
+    'use strict';
     var NavModel = Backbone.Model.extend({
         defaults: function () {
             return {
@@ -9,7 +10,8 @@ define(["const", "backbone", "utils", "collections/Posts"], function (constants,
                 pageId: null,
                 section: constants.SECTIONS[0],
                 after: null,
-                topic: null
+                topic: null,
+                comment: null
             }
         },
         /**
@@ -18,35 +20,37 @@ define(["const", "backbone", "utils", "collections/Posts"], function (constants,
          * @param {String} section
          * @param {String} topic
          * @param {String} after
-         * @param {String} before
          */
-        setState: function (pageId, section,  topic, after, before) {
+        setState: function (pageId, section, topic, after) {
             this.set({
                 pageId: pageId,
                 section: section,
                 after: after,
-                before: before,
                 topic: topic
-            }, {silent : true});
+            }, {silent: true});
         },
 
-        _getNavUrl: function (section) {
+        _getUrl: function (section, after, opt) {
+            opt = opt || {};
             var topic = this.get('topic');
-            var after = this.get('after');
+            var section = section || this.get('section');
+            var after = after || this.get('after');
             var pageId = this.get('pageId');
-            var url = '';
-            if(pageId){
-                url += pageId + '/s/' + section;
-                if (topic !== null) {
-                    url += '/t/' + topic;
-                }else if(after){
-                    url += '/a/' + after;
-                }
-            }else{
-                url += 's/' + section;
+            var url = '?';
+            if (pageId)
+                url += '/' + pageId;
+            if (section) {
+                url += '/s/' + section;
+            } else if (topic !== null) {
+                url += '/t/' + topic;
             }
-
-
+            if (opt.nav) return url;
+            if (opt.comment) {
+                url += '/c/' + opt.comment;
+            }
+            if (after) {
+                url += '/a/' + after;
+            }
             return url;
 
         },
@@ -54,22 +58,31 @@ define(["const", "backbone", "utils", "collections/Posts"], function (constants,
         getNavBarObject: function () {
             var self = this;
             var topic = self.get('topic');
-            if(topic){
+            if (topic) {
                 return [{
-                    href : self.get('pageId'),
-                    name : self.get('pageId'),
-                    isCurrent : false
+                    href: self.get('pageId'),
+                    name: self.get('pageId'),
+                    isCurrent: true
                 }];
             }
             var navbarList = _.map(constants.SECTIONS, function (section) {
                 return {
-                    href: self._getNavUrl(section),
+                    href: self._getUrl(section, null, {nav: true}),
                     name: utils.capitalizeFirst(section),
                     isCurrent: section == self.get('section')
                 }
             });
             console.log(navbarList);
             return navbarList;
+        },
+
+        /*?/:id/s/:section/a/:after*/
+        getLinkPostsAfter: function (after) {
+            return this._getUrl(null, after);
+        },
+
+        getPermalink: function (hash) {
+            return this._getUrl(null, null, {comment: hash});
         }
     });
 

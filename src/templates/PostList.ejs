@@ -2,11 +2,6 @@
 {{= $$.Post(el) }}
 {{ }); }}
 
-<div class="page-nav">
-    <a href="{{= o.nav.before }}" class="fake-link btn btn-primary {{= o.nav.before ? '' : 'disabled'}}">
-        <i class="mdi-navigation-arrow-back"></i>
-    </a>
-    <a href="{{= o.nav.after }}" class="fake-link btn btn-primary {{= o.nav.after ? '' : 'disabled'}}">
-        <i class="mdi-navigation-arrow-forward"></i>
-    </a>
+<div class="page-nav" id="page-nav">
+
 </div>

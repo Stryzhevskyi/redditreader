@@ -128,6 +128,14 @@ body {
     .thing .thumbnail {
         width: 120px !important;
     }
+    .thing .thumbnail {
+        -webkit-flex: 0 0 30%;
+        -ms-flex: 0 0 30%;
+        flex: 0 0 30%;
+        -webkit-align-self: flex-start;
+        -ms-flex-item-align: flex-start;
+        align-self: flex-start;
+    }
 }
 /*sm*/
 @media (min-width: 768px) and (max-width: 991px) {

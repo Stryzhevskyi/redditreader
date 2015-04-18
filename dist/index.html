@@ -3,30 +3,12 @@
 <head lang="en">
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
+    <meta http-equiv="Content-Security-Policy" content="img-src *;">
     <title>Reddit Reader</title>
     <link href="./css/libs.css" rel="stylesheet" type="text/css"/>
     <link href="./css/app.css" rel="stylesheet" type="text/css"/>
     <script src="../bower_components/requirejs/require.js" data-main="js/require.config"
             type="text/javascript"></script>
-    <script>
-        if ('serviceWorker' in navigator) {
-            navigator.serviceWorker.register('./sw.js', {scope: './'}).then(function () {
-                // Registration was successful. Now, check to see whether the service worker is controlling the page.
-                if (navigator.serviceWorker.controller) {
-                    // If .controller is set, then this page is being actively controlled by the service worker.
-                    console.log('Service worker Registered');
-                } else {
-                    // If .controller isn't set, then prompt the user to reload the page so that the service worker can take
-                    // control. Until that happens, the service worker's fetch handler won't be used.
-                    console.log('please reload');
-                }
-            }).catch(function (error) {
-                // Something went wrong during registration. The service-worker.js file
-                // might be unavailable or contain a syntax error.
-                console.warn(error);
-            });
-        }
-    </script>
 </head>
 <body id="root">
 

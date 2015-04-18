@@ -3,8 +3,6 @@
  */
 var CACHE_NAME = 'reddit-cache-v1';
 var urlsToCache = [];
-
-
 this.addEventListener('fetch', function (event) {
     var fetchReq = event.request.clone(),
         cacheReq = event.request.clone();

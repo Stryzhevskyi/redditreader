@@ -1,8 +1,14 @@
 <ul class="nav navbar-nav">
     {{ o.items.forEach(function(item){ }}
-    <li
-    {{= item.isCurrent ? 'class="active"' : '' }}>
-        <a href="?/{{= item.href }}" class="fake-link navlink">{{= item.name }}</a>
+    <li class="{{= item.isCurrent ? 'active' : '' }}">
+        <a
+                href="?/{{= item.href }}"
+                class="fake-link navlink"
+                data-toggle="collapse"
+                data-target=".navbar-collapse"
+                >
+            {{= item.name }}
+        </a>
     </li>
     {{ }); }}
 </ul>

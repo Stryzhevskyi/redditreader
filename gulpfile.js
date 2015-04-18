@@ -12,11 +12,13 @@ var html2tpl = require('gulp-html2tpl');
 var rjs = require('gulp-requirejs');
 var uglify = require('gulp-uglify');
 var webserver = require('gulp-webserver');
+var changed = require('gulp-changed');
 
 
 gulp.task('js', function () {
     return gulp
         .src(['src/js/**/*.js'])
+        .pipe(changed('dist/js/'))
         .pipe(copy('dist/js/', {prefix: 2}));
 });
 
@@ -55,6 +57,7 @@ gulp.task('templates', function () {
 
 gulp.task('index', function () {
     return gulp.src(['src/*'])
+        .pipe(changed('dist/'))
         .pipe(rename(function(){}))
         .pipe(gulp.dest('dist/'));
 });

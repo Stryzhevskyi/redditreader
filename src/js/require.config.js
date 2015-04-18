@@ -5,6 +5,7 @@
     require.config({
         'baseUrl': './js/',
         'findNestedDependencies': true,
+        'waitSeconds' : 10,
         'paths': {
             "jquery": '../../bower_components/jquery/dist/jquery.min',
             "bootstrap": '../../bower_components/bootstrap/dist/js/bootstrap',

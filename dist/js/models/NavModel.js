@@ -16,16 +16,18 @@ define(["const", "backbone", "utils", "collections/Posts"], function (constants,
          *
          * @param {String} pageId
          * @param {String} section
-         * @param {String} after
          * @param {String} topic
+         * @param {String} after
+         * @param {String} before
          */
-        setState: function (pageId, section, after, topic) {
+        setState: function (pageId, section,  topic, after, before) {
             this.set({
                 pageId: pageId,
                 section: section,
                 after: after,
+                before: before,
                 topic: topic
-            });
+            }, {silent : true});
         },
 
         _getNavUrl: function (section) {

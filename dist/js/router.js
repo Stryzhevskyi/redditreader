@@ -32,19 +32,19 @@ define(function (require) {
 
 		root: function () {
 			console.log('root');
-            App.navModel.setState(null, App.constants.SECTIONS[0], null, null);
+            App.navModel.setState(null, App.constants.SECTIONS[0], null, null, null);
             controller.onRedditPage(null, App.constants.SECTIONS[0], null);
 		},
 
 		rootSection: function (section) {
 			console.log('root');
-            App.navModel.setState(null, section, null, null);
+            App.navModel.setState(null, section, null, null, null);
             controller.onRedditPage(null, section, null);
 		},
 
 		main: function (id) {
 			console.log('redditMain', id);
-            App.navModel.setState(id, App.constants.SECTIONS[0], null, null);
+            App.navModel.setState(id, App.constants.SECTIONS[0], null, null, null);
             controller.onRedditPage(id, App.constants.SECTIONS[0], null);
 		},
 

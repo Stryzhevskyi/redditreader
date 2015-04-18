@@ -20,36 +20,21 @@ gulp.task('js', function () {
         .pipe(copy('dist/js/', {prefix: 2}));
 });
 
-gulp.task('libs', ['libs_js', 'libs_css', 'libs_media']);
+gulp.task('libs', ['libs_css']);
 
 gulp.task('libs_css', function () {
     return gulp
         .src([
             'src/css/lib/*.css',
             'bower_components/bootstrap/dist/css/bootstrap.min.css',
-            'bower_components/bootstrap/dist/css/bootstrap-theme.min.css'
+            //'bower_components/bootstrap/dist/css/bootstrap-theme.min.css',
+            //'bower_components/bootstrap-material-design/dist/css/material.min.css',
+            'bower_components/bootstrap-material-design/dist/css/roboto.min.css',
+            'bower_components/bootstrap-material-design/dist/css/material-fullpalette.min.css',
+            'bower_components/bootstrap-material-design/dist/css/ripples.min.css'
         ])
         .pipe(concat('libs.css'))
         .pipe(gulp.dest('dist/css/'));
-});
-
-gulp.task('libs_js', function () {
-    return gulp.src(["src/js/lib/"])
-        .pipe(rename(function (path) {
-        }))
-        .pipe(gulp.dest("dest/js/lib/"));
-});
-
-gulp.task('libs_media', function () {
-    return gulp
-        .src([
-            'src/fonts/*',
-            'src/img/*',
-            'src/_locales/**/**',
-            'src/manifest.json',
-            'src/schema.json'
-        ])
-        .pipe(copy('dist/', {prefix: 1}));
 });
 
 
@@ -70,19 +55,26 @@ gulp.task('templates', function () {
 
 gulp.task('index', function () {
     return gulp.src(['src/*'])
-        .pipe(copy('dist/', {prefix: 2}));
+        .pipe(rename(function(){}))
+        .pipe(gulp.dest('dist/'));
 });
 
 gulp.task('styles', function () {
     return gulp
-        .src(['src/css/*.css'])
+        .src([
+            'src/css/style.css',
+            'src/css/media.css'
+        ])
         .pipe(concat('app.css'))
         .pipe(gulp.dest('dist/css/'));
 });
 
 gulp.task('fonts', function () {
     return gulp
-        .src(['bower_components/bootstrap/fonts/*'])
+        .src([
+            'bower_components/bootstrap/fonts/*',
+            'bower_components/bootstrap-material-design/dist/fonts/*'
+        ])
         .pipe(rename(function (path) {}))
         .pipe(gulp.dest('dist/fonts/'));
 });
@@ -147,6 +139,7 @@ gulp.task('server', function () {
             livereload: true,
             directoryListing: false,
             open: 'http://127.0.0.1:8000/dist/',
+            directoryListing : 'dist/'
             //https: {
             //    key: './private/server.key',
             //    cert: './private/server.crt'
@@ -157,7 +150,7 @@ gulp.task('server', function () {
 
 gulp.task('dist', ['rbuild', 'cssmin']);
 
-gulp.task('build', ['js', 'libs', 'index', 'styles', 'templates', 'fonts']);
+gulp.task('build', ['js', 'index', 'styles', 'templates', 'libs', 'fonts']);
 
 gulp.task('default', [
     'build',

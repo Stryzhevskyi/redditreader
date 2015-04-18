@@ -5,25 +5,141 @@ body {
 .thing {
     clear: both;
     position: relative;
-    border-bottom: 1px black dashed;
     margin: 8px 0px;
-    padding-bottom: 8px;
+    background: #ffffff;
+    /*flex*/
+    display: -ms-flexbox;
+    display: -webkit-flex;
+    display: flex;
+    -webkit-flex-direction: row;
+    -ms-flex-direction: row;
+    flex-direction: row;
+    -webkit-flex-wrap: nowrap;
+    -ms-flex-wrap: nowrap;
+    flex-wrap: nowrap;
+    -webkit-justify-content: flex-start;
+    -ms-flex-pack: start;
+    justify-content: flex-start;
+    -webkit-align-content: stretch;
+    -ms-flex-line-pack: stretch;
+    align-content: stretch;
+    -webkit-align-items: flex-start;
+    -ms-flex-align: start;
+    align-items: flex-start;
 }
 
 .thing div.score {
     position: absolute;
-    left: -50px;
+    left: -62px;
     font-size: 20px;
+    text-align: right;
     top: 0;
-    width: 80px;
+    width: 60px;
+}
+
+.thing .description {
+    margin-left: 8px;
+    /*flex*/
+    -webkit-order: 0;
+    -ms-flex-order: 0;
+    order: 0;
+    -webkit-flex: 2 1 auto;
+    -ms-flex: 2 1 auto;
+    flex: 2 1 auto;
+    -webkit-align-self: stretch;
+    -ms-flex-item-align: stretch;
+    align-self: stretch;
 }
 
 .thing .thumbnail {
-    float: left;
-    font-size: 0;
+    background-size: cover !important;
     margin: 0;
-    margin-right: 5px;
-    margin-bottom: 2px;
-    overflow: hidden;
-    width: 70px;
+    /*width: 100px;*/
+    padding: 0;
+    border-radius: 0;
+    -webkit-order: 0;
+    -ms-flex-order: 0;
+    order: 0;
+    -webkit-flex: 0 0 auto;
+    -ms-flex: 0 0 auto;
+    flex: 0 0 auto;
+    -webkit-align-self: stretch;
+    -ms-flex-item-align: stretch;
+    align-self: stretch;
+}
+
+.thing .thumbnail.default {
+
+}
+.thing .thumbnail.default {
+    background-image: url("https://www.redditstatic.com/sprite-reddit.EMWQffWtZwo.png") !important;
+    background-repeat: no-repeat;
+    background-position: 0px 53%;
+    background-size: 167% !important;
+    height: 82px;
+}
+
+.flex-container {
+    display: -ms-flexbox;
+    display: -webkit-flex;
+    display: flex;
+    -webkit-flex-direction: row;
+    -ms-flex-direction: row;
+    flex-direction: row;
+    -webkit-flex-wrap: nowrap;
+    -ms-flex-wrap: nowrap;
+    flex-wrap: nowrap;
+    -webkit-justify-content: flex-start;
+    -ms-flex-pack: start;
+    justify-content: flex-start;
+    -webkit-align-content: stretch;
+    -ms-flex-line-pack: stretch;
+    align-content: stretch;
+    -webkit-align-items: flex-start;
+    -ms-flex-align: start;
+    align-items: flex-start;
+}
+
+.flex-item:nth-child(1) {
+    -webkit-order: 0;
+    -ms-flex-order: 0;
+    order: 0;
+    -webkit-flex: 0 1 auto;
+    -ms-flex: 0 1 auto;
+    flex: 0 1 auto;
+    -webkit-align-self: stretch;
+    -ms-flex-item-align: stretch;
+    align-self: stretch;
+}
+
+.flex-item:nth-child(2) {
+    -webkit-order: 0;
+    -ms-flex-order: 0;
+    order: 0;
+    -webkit-flex: 2 1 auto;
+    -ms-flex: 2 1 auto;
+    flex: 2 1 auto;
+    -webkit-align-self: stretch;
+    -ms-flex-item-align: stretch;
+    align-self: stretch;
+}
+/*xs*/
+@media (max-width: 767px) {
+    .thing .thumbnail {
+        width: 120px !important;
+    }
+}
+/*sm*/
+@media (min-width: 768px) and (max-width: 991px) {
+
+}
+
+/*md*/
+@media (min-width: 992px) and (max-width: 1199px) {
+
+}
+
+/*lg*/
+@media (min-width: 1200px) {
+
 }

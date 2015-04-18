@@ -1,7 +1,7 @@
 /**
  * Created by Sergei on 17.04.15.
  */
-define(["backbone", "underscore", "jquery", "tpls"], function (Backbone, _, $, tpls) {
+define(["backbone", "underscore", "jquery", "tpls", "models/NavModel"], function (Backbone, _, $, tpls, navModel) {
     var PostListView = Backbone.View.extend({
         initialize: function (options) {
             //this.collection.on('all', function(){
@@ -12,20 +12,15 @@ define(["backbone", "underscore", "jquery", "tpls"], function (Backbone, _, $, t
             this.listenTo(this.collection, 'sync', this.render);
         },
 
-        el : '#postList',
+        el: '#postList',
 
 
         render: function () {
             console.log(this);
-            this
-                .$el
-                .html(
-                this.template(
-                    {
-                        items: this.collection.toJSON()
-                    }
-                )
-            );
+            this.$el.html(this.template({
+                items: this.collection.toJSON(),
+                nav: navModel.toJSON()
+            }));
             return this;
         }
     });

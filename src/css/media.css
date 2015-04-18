@@ -1,0 +1,20 @@
+/*xs*/
+@media (max-width: 767px) {
+    .thing .thumbnail {
+        width: 120px !important;
+    }
+}
+/*sm*/
+@media (min-width: 768px) and (max-width: 991px) {
+
+}
+
+/*md*/
+@media (min-width: 992px) and (max-width: 1199px) {
+
+}
+
+/*lg*/
+@media (min-width: 1200px) {
+
+}

@@ -25,7 +25,7 @@ define(["backbone", "underscore", "jquery", "reddit"],
                     console.log(query);
                     query.fetch(function (res) {
                         console.log(res);
-                        self.set(self.parse(res.data.children));
+                        self.set(self.parse(res));
                         self.trigger('sync', self, res.data.children, params);
                         Backbone.channel.trigger('posts:sync', {before: res.data.before, after: res.data.after});
                         resolve(res);
@@ -34,11 +34,16 @@ define(["backbone", "underscore", "jquery", "reddit"],
                     });
                 });
             },
-            parse: function (coll) {
+            parse: function (res) {
+                var coll = res.data.children;
+                this.after = res.data.after;
+                this.before = res.data.before;
                 return _.map(coll, function (el) {
                     var thumbnail = el.data.thumbnail;
-                    if (thumbnail === 'nsfw' || thumbnail === 'self')
-                        el.data.thumbnail = '';
+                    if (thumbnail === 'nsfw' || thumbnail === 'self' || thumbnail === 'default'){
+                        //el.data.thumbnail = '';
+                        el.data.thumbnailClassName = thumbnail;
+                    }
                     return el.data;
                 });
             },

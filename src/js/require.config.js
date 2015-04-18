@@ -13,7 +13,9 @@
             "tpls": 'templates',
             "app": 'app',
             "utils": 'modules/utils',
-            "reddit": '../../bower_components/reddit.js/reddit'
+            "reddit": '../../bower_components/reddit.js/reddit',
+            "material" : "../../bower_components/bootstrap-material-design/dist/js/material.min",
+            "ripples" : "../../bower_components/bootstrap-material-design/dist/js/ripples.min"
         },
         shim: {
             "reddit": {
@@ -21,12 +23,20 @@
             },
             "bootstrap": {
                 deps: ["jquery"]
+            },
+            "material": {
+                deps: ["jquery", "bootstrap"]
+            },
+            "ripples": {
+                deps: ["material"]
             }
         },
         deps: [
             "underscore",
             "jquery",
             "bootstrap",
+            "material",
+            "ripples",
             "utils"
         ]
     });

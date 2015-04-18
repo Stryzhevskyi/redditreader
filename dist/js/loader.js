@@ -16,6 +16,7 @@ define(["app", "backbone", "tpls", "underscore", "utils"],
 		tpls.$href = function (link) {
 			return App.rootUrl + link;
 		};
+        tpls.$fragment = Backbone.history.fragment;
 
 		App.tpls = tpls;
 		App.utils = utils;

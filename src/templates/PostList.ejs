@@ -1,28 +1,12 @@
 {{ o.items.forEach(function(el, n){ }}
-<article class="thing" id="{{= el.id }}">
-    {{ if(el.thumbnail){ }}
-    <img src="{{= el.thumbnail }}" class="thumbnail">
-    {{ } }}
-    <div class="description">
-        <span class="title">
-            {{= el.title }}
-            <strong class="score hidden-lg">({{= el.score }})</strong>
-        </span>
-        <br/>
-        <span class="details">
-            submitted {{= $$.$utils.timeDiff(el.created) }} by
-            <strong class="author">{{= el.author }}</strong> to
-            <a href="?/{{= el.subreddit }}" class="fake-link">
-                /{{= el.subreddit }}
-            </a>
-        </span>
-        <a href="?/{{= el.subreddit + '/t/' + el.id }}" class="fake-link">
-            {{= el.num_comments }} comments
-        </a>
-    </div>
-    <div class="score visible-lg">
-        {{= el.score }}
-    </div>
-    <div class="clearfix"></div>
-</article>
+{{= $$.Post(el) }}
 {{ }); }}
+
+<div class="page-nav">
+    <a href="{{= o.nav.before }}" class="fake-link btn btn-primary {{= o.nav.before ? '' : 'disabled'}}">
+        <i class="mdi-navigation-arrow-back"></i>
+    </a>
+    <a href="{{= o.nav.after }}" class="fake-link btn btn-primary {{= o.nav.after ? '' : 'disabled'}}">
+        <i class="mdi-navigation-arrow-forward"></i>
+    </a>
+</div>

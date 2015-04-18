@@ -34,6 +34,13 @@ define(function (require) {
                     items: App.navModel.getNavBarObject()
                 }));
             });
+            postsCollection.on('sync', function(){
+               App.navModel.set({
+                   after : postsCollection.after,
+                   before : postsCollection.before,
+               })
+            });
+
             App.navModel.trigger('change');
 
             App.views.postListView = new PostListView({collection : postsCollection});
@@ -43,6 +50,8 @@ define(function (require) {
 				var link = ev.currentTarget.getAttribute('href');
 				App.navigate(link);
 			});
+
+            $.material.init();
 		},
 
 		onRedditPage: function (id, section, page) {

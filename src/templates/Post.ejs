@@ -1,0 +1,29 @@
+<article class="thing sample shadow-z-1" id="{{= o.id }}">
+    {{ if(o.thumbnailClassName){ console.log(o);}}
+    <div class="thumbnail {{= o.thumbnailClassName }}"></div>
+    {{ }else if(o.thumbnail){ }}
+    <img src="{{= o.thumbnail }}" class="thumbnail"/>
+    {{ } }}
+    <div class="description">
+        <span class="title">
+            {{= o.title }}
+            <strong class="score hidden-lg">({{= o.score }})</strong>
+        </span>
+        <br/>
+
+        <span class="details text-muted">
+            submitted {{= $$.$utils.timeDiff(o.created) }} by
+            <strong class="author">{{= o.author }}</strong> to
+            <a href="?/{{= o.subreddit }}" class="fake-link">
+                /{{= o.subreddit }}
+            </a>
+        </span>
+        <a href="?/{{= o.subreddit + '/t/' + o.id }}" class="fake-link text-info">
+            {{= o.num_comments }} comments
+        </a>
+    </div>
+    <div class="score visible-lg">
+        {{= o.score }}
+    </div>
+    <div class="clearfix"></div>
+</article>

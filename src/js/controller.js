@@ -27,6 +27,7 @@ define(function (require) {
         constructor: Controller,
 
         onStart: function () {
+            var self = this;
             console.log('onStart');
             App.$root.html(App.tpls['Root']({}));
 
@@ -37,7 +38,8 @@ define(function (require) {
 
             App.navModel.on('change', function () {
                 App.$navbar.html(App.tpls['NavBar']({
-                    items: App.navModel.getNavBarObject()
+                    items: App.navModel.getNavBarObject(),
+                    search: App.navModel.get('search')
                 }));
             });
             postsCollection.on('sync', function () {
@@ -48,8 +50,8 @@ define(function (require) {
 
             App.navModel.trigger('change');
 
-            App.views.postListView = new PostListView({collection: postsCollection, App : App});
-            App.views.commentTreeView = new CommentTreeView({model: commentsModel, App : App});
+            App.views.postListView = new PostListView({collection: postsCollection, App: App});
+            App.views.commentTreeView = new CommentTreeView({model: commentsModel, App: App});
 
             App.$root.on('click', '.fake-link', function (ev) {
                 ev.preventDefault();
@@ -57,8 +59,19 @@ define(function (require) {
                 App.navigate(link);
             });
 
-            App.router.on('route', function(route, params){
-                console.info('ROUTE',route, params);
+            App.$navbar.on('keypress', '#search', function (ev) {
+                //ev.preventDefault();
+                var query = ev.currentTarget.value.trim();
+                console.log(ev, query);
+                if (query && ev.keyCode === 13) {
+                    Backbone.channel.trigger('search:query', query);
+                    self.onSearch();
+                    return false;
+                }
+            });
+
+            App.router.on('route', function (route, params) {
+                console.info('ROUTE', route, params);
             });
 
             //$.ajaxSetup({
@@ -88,9 +101,18 @@ define(function (require) {
             console.log('onRedditTopic', arguments);
             App.views.commentTreeView.scrollToComment = comment;
             App.commentsModel
-                .fetch({section:id, id:topic, limit:200})
+                .fetch({section: id, id: topic, limit: 200})
                 .then(function (coll) {
                     console.log(coll);
+                });
+        },
+
+        onSearch: function (section, query, after) {
+            console.log('search', section, query, after);
+            App.postsCollection
+                .fetch(App.navModel.toJSON())
+                .then(function (coll) {
+
                 });
         }
     };

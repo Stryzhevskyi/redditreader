@@ -4,6 +4,17 @@
 define(["const", "backbone", "utils"], function (constants, Backbone, utils) {
     'use strict';
     var NavModel = Backbone.Model.extend({
+        initialize: function () {
+            var self = this;
+            _.bindAll(this, 'updateSearch');
+            this.listenTo(Backbone.channel, 'search:query', this.updateSearch);
+            this.on('change:search', function (data) {
+                if (self.previous('search') !== data.get('search')) {
+                    self.set({after: null}, {silent: true});
+                }
+            })
+        },
+
         defaults: function () {
             return {
                 id: 0,
@@ -11,7 +22,8 @@ define(["const", "backbone", "utils"], function (constants, Backbone, utils) {
                 section: constants.SECTIONS[0],
                 after: null,
                 topic: null,
-                comment: null
+                comment: null,
+                search: null
             }
         },
         /**
@@ -36,6 +48,7 @@ define(["const", "backbone", "utils"], function (constants, Backbone, utils) {
             var section = section || this.get('section');
             var after = after || this.get('after');
             var pageId = this.get('pageId');
+            var search = this.get('search');
             var url = '?';
             if (pageId)
                 url += '/' + pageId;
@@ -43,6 +56,9 @@ define(["const", "backbone", "utils"], function (constants, Backbone, utils) {
                 url += '/s/' + section;
             } else if (topic !== null) {
                 url += '/t/' + topic;
+            }
+            if (search) {
+                url += '/q/' + search;
             }
             if (opt.nav) return url;
             if (opt.comment) {
@@ -83,6 +99,10 @@ define(["const", "backbone", "utils"], function (constants, Backbone, utils) {
 
         getPermalink: function (hash) {
             return this._getUrl(null, null, {comment: hash});
+        },
+
+        updateSearch: function (query) {
+            this.set({search: query});
         }
     });
 

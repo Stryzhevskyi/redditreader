@@ -17,7 +17,12 @@
 </ul>
 
 <form class="navbar-form navbar-right">
-    <input type="text" class="form-control col-lg-8" placeholder="Search">
+    <input
+            id="search"
+            type="text"
+            class="form-control col-lg-8"
+            placeholder="Search"
+            value="{{= o.search ? o.search : '' }}">
 </form>
 <ul class="nav navbar-nav navbar-right">
 </ul>

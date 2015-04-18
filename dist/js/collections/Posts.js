@@ -17,9 +17,20 @@ define(["backbone", "underscore", "jquery", "reddit"],
                     if(!reddit.hasOwnProperty(params.section)){
                         params.section = 'hot';
                     }
-                    var query = params.pageId
-                        ? reddit[params.section](params.pageId)
-                        : reddit[params.section]();
+                    if(params.search){
+                        Backbone.channel.trigger('search:query', params.search);
+                        params.sort = params.section;
+                    }
+                    var query;
+                    if(params.search){
+                        query = reddit
+                            .search(params.search)
+                            .sort(params.sort);
+                    }else{
+                        query = params.pageId
+                            ? reddit[params.section](params.pageId)
+                            : reddit[params.section]();
+                    }
                     if (params.after) {
                         query = query.after(params.after);
                     } else if (params.before) {
@@ -31,7 +42,7 @@ define(["backbone", "underscore", "jquery", "reddit"],
                         console.log(res);
                         self.set(self.parse(res));
                         self.trigger('sync', self, res.data.children, params);
-                        Backbone.channel.trigger('posts:sync', {after: self.after});
+                        Backbone.channel.trigger('posts:sync', params);
                         resolve(res);
                     }, function (error) {
                         reject(error);

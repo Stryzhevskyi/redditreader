@@ -13,14 +13,19 @@ define(function (require) {
 	var router = null;
 	var Router = Backbone.Router.extend({
 		initialize: function (options) {
-
+            var self = this;
+            this.listenTo(App.navModel, 'change:search', function(){
+                self.navigate(App.navModel._getUrl());
+            })
 		},
 
 		routes: {
 			"?/:id/t/:topic": "topic",
 			"?/:id/t/:topic/c/:comment": "topicComment",
             "?/s/:section": "rootSection",
-            "?/s/:section/a/:after": "rootSectionAfter",
+            "?/s/:section/a/:after": "rootSection",
+            "?/s/:section/q/:query": "sectionSearch",
+            "?/s/:section/q/:query/a/:after": "sectionSearch",
             "?/:id/s/:section": "section",
             "?/:id/s/:section/a/:after": "sectionAfter",
             "?/:id": "main",
@@ -43,9 +48,12 @@ define(function (require) {
             controller.onRedditPage(null, section, after);
 		},
 
-        rootSectionAfter : function(section, after){
-            this.rootSection(section, after, null);
-        },
+        sectionSearch: function (section, query, after) {
+            App.navModel.setState(null, section, null, after);
+            App.navModel.set({search : query});
+            controller.onSearch(section, query, after);
+		},
+
 
 		main: function (id) {
             App.navModel.setState(id, App.constants.SECTIONS[0], null, null, null);

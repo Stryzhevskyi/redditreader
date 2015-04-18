@@ -2,22 +2,10 @@
  * Created by Sergei on 14.04.15.
  */
 define(function (require) {
-    'use strict';
-
     var Backbone = require("backbone");
     var constants = require("const");
     var navModel = require("models/NavModel");
-
-
-
-	var channel = _.extend({}, Backbone.Events);
-	channel.on('all', function () {
-		console.info.apply(
-			console,
-			['channel : '].concat(Array.prototype.slice.call(arguments))
-		);
-	});
-    Backbone.channel = channel;
+    'use strict';
 
 	var App = {
 		start: function () {
@@ -32,7 +20,7 @@ define(function (require) {
 		},
         navModel : navModel,
         views : {},
-		channel: channel,
+		channel: Backbone.channel,
 		constants: constants,
 		$root: $('#root'),
 		$navbar: null,

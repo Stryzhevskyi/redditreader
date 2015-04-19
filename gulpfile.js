@@ -20,7 +20,7 @@ var fs = require('fs');
 gulp.task('js', function () {
     return gulp
         .src(['src/js/**/*.js'])
-        .pipe(changed('dist/js/'))
+        //.pipe(changed('dist/js/'))
         .pipe(copy('dist/js/', {prefix: 2}));
 });
 
@@ -58,7 +58,7 @@ gulp.task('templates', function () {
 
 gulp.task('index', function () {
     return gulp.src(['src/*'])
-        .pipe(changed('dist/'))
+        //.pipe(changed('dist/'))
         .pipe(rename(function () {
         }))
         .pipe(gulp.dest('dist/'));

@@ -4416,16 +4416,169 @@ if (typeof jQuery === 'undefined') {
 
 define("bootstrap", ["jquery"], function(){});
 
+/* SnackbarJS - MIT LICENSE (https://github.com/FezVrasta/snackbarjs/blob/master/LICENSE.md) */
+(function(c){function d(a){return"undefined"!==typeof a&&null!==a?!0:!1}c(document).ready(function(){c("body").append("<div id=snackbar-container/>")});c(document).on("click","[data-toggle=snackbar]",function(){c(this).snackbar("toggle")}).on("click","#snackbar-container .snackbar",function(){c(this).snackbar("hide")});c.snackbar=function(a){if(d(a)&&a===Object(a)){var b;b=d(a.id)?c("#"+a.id):c("<div/>").attr("id","snackbar"+Date.now()).attr("class","snackbar");var g=b.hasClass("snackbar-opened");d(a.style)?b.attr("class","snackbar "+a.style):b.attr("class","snackbar");a.timeout=d(a.timeout)?a.timeout:3E3;d(a.content)&&(b.find(".snackbar-content").length?b.find(".snackbar-content").text(a.content):b.prepend("<span class=snackbar-content>"+a.content+"</span>"));d(a.id)?b.insertAfter("#snackbar-container .snackbar:last-child"):b.appendTo("#snackbar-container");d(a.action)&&"toggle"==a.action&&(a.action=g?"hide":"show");var e=Date.now();b.data("animationId1",e);setTimeout(function(){b.data("animationId1")===e&&(d(a.action)&&"show"!=a.action?d(a.action)&&"hide"==a.action&&b.removeClass("snackbar-opened"):b.addClass("snackbar-opened"))},50);var f=Date.now();b.data("animationId2",f);0!==a.timeout&&setTimeout(function(){b.data("animationId2")===f&&b.removeClass("snackbar-opened")},a.timeout);return b}return!1};c.fn.snackbar=function(a){var b={};if(this.hasClass("snackbar")){b.id=this.attr("id");if("show"===a||"hide"===a||"toggle"==a)b.action=a;return c.snackbar(b)}d(a)&&"show"!==a&&"hide"!==a&&"toggle"!=a||(b={content:c(this).attr("data-content"),style:c(this).attr("data-style"),timeout:c(this).attr("data-timeout")});d(a)&&(b.id=this.attr("data-snackbar-id"),"show"===a||"hide"===a||"toggle"==a)&&(b.action=a);a=c.snackbar(b);this.attr("data-snackbar-id",a.attr("id"));return a}})(jQuery);
+
+define("snackbar", ["jquery"], function(){});
+
 !function(a){function b(a){return"undefined"==typeof a.which?!0:"number"==typeof a.which&&a.which>0?!a.ctrlKey&&!a.metaKey&&!a.altKey&&8!=a.which&&9!=a.which:!1}a.expr[":"].notmdproc=function(b){return a(b).data("mdproc")?!1:!0},a.material={options:{input:!0,ripples:!0,checkbox:!0,togglebutton:!0,radio:!0,arrive:!0,autofill:!1,withRipples:[".btn:not(.btn-link)",".card-image",".navbar a:not(.withoutripple)",".dropdown-menu a",".nav-tabs a:not(.withoutripple)",".withripple"].join(","),inputElements:"input.form-control, textarea.form-control, select.form-control",checkboxElements:".checkbox > label > input[type=checkbox]",togglebuttonElements:".togglebutton > label > input[type=checkbox]",radioElements:".radio > label > input[type=radio]"},checkbox:function(b){a(b?b:this.options.checkboxElements).filter(":notmdproc").data("mdproc",!0).after("<span class=checkbox-material><span class=check></span></span>")},togglebutton:function(b){a(b?b:this.options.togglebuttonElements).filter(":notmdproc").data("mdproc",!0).after("<span class=toggle></span>")},radio:function(b){a(b?b:this.options.radioElements).filter(":notmdproc").data("mdproc",!0).after("<span class=circle></span><span class=check></span>")},input:function(c){a(c?c:this.options.inputElements).filter(":notmdproc").data("mdproc",!0).each(function(){var b=a(this);if(a(this).attr("data-hint")||b.hasClass("floating-label")){if(b.wrap("<div class=form-control-wrapper></div>"),b.after("<span class=material-input></span>"),b.hasClass("floating-label")){var c=b.attr("placeholder");b.attr("placeholder",null).removeClass("floating-label"),b.after("<div class=floating-label>"+c+"</div>")}if(b.attr("data-hint")&&b.after("<div class=hint>"+b.attr("data-hint")+"</div>"),(null===b.val()||"undefined"==b.val()||""===b.val())&&b.addClass("empty"),b.parent().next().is("[type=file]")){b.parent().addClass("fileinput");var d=b.parent().next().detach();b.after(d)}}}),a(document).on("change",".checkbox input[type=checkbox]",function(){a(this).blur()}).on("keydown paste",".form-control",function(c){b(c)&&a(this).removeClass("empty")}).on("keyup change",".form-control",function(){var b=a(this);""===b.val()&&"undefined"!=typeof b[0].checkValidity&&b[0].checkValidity()?b.addClass("empty"):b.removeClass("empty")}).on("focus",".form-control-wrapper.fileinput",function(){a(this).find("input").addClass("focus")}).on("blur",".form-control-wrapper.fileinput",function(){a(this).find("input").removeClass("focus")}).on("change",".form-control-wrapper.fileinput [type=file]",function(){var b="";a.each(a(this)[0].files,function(a,c){b+=c.name+", "}),b=b.substring(0,b.length-2),b?a(this).prev().removeClass("empty"):a(this).prev().addClass("empty"),a(this).prev().val(b)})},ripples:function(b){a(b?b:this.options.withRipples).ripples()},autofill:function(){var b=setInterval(function(){a("input[type!=checkbox]").each(function(){a(this).val()&&a(this).val()!==a(this).attr("value")&&a(this).trigger("change")})},100);setTimeout(function(){clearInterval(b)},1e4);var c;a(document).on("focus","input",function(){var b=a(this).parents("form").find("input").not("[type=file]");c=setInterval(function(){b.each(function(){a(this).val()!==a(this).attr("value")&&a(this).trigger("change")})},100)}).on("blur","input",function(){clearInterval(c)})},init:function(){a.fn.ripples&&this.options.ripples&&this.ripples(),this.options.input&&this.input(),this.options.checkbox&&this.checkbox(),this.options.togglebutton&&this.togglebutton(),this.options.radio&&this.radio(),this.options.autofill&&this.autofill(),document.arrive&&this.options.arrive&&(a.fn.ripples&&this.options.ripples&&a(document).arrive(this.options.withRipples,function(){a.material.ripples(a(this))}),this.options.input&&a(document).arrive(this.options.inputElements,function(){a.material.input(a(this))}),this.options.checkbox&&a(document).arrive(this.options.checkboxElements,function(){a.material.checkbox(a(this))}),this.options.radio&&a(document).arrive(this.options.radioElements,function(){a.material.radio(a(this))}),this.options.togglebutton&&a(document).arrive(this.options.togglebuttonElements,function(){a.material.togglebutton(a(this))}))}}}(jQuery);
 //# sourceMappingURL=material.min.js.map
 ;
-define("material", ["jquery","bootstrap"], function(){});
+define("material", ["jquery","bootstrap","snackbar"], function(){});
 
+/**
+ * Created by Sergei on 19.04.15.
+ */
+define('messages',["jquery"], function ($) {
+    
+    var DEFAULT_TIMEOUT = 2000;
+
+    return {
+        info: function (msg, timeout) {
+            return this.message(msg, "info-message", timeout);
+        },
+        success: function (msg, timeout) {
+            return this.message(msg, "success-message", timeout);
+        },
+        log: function (msg, timeout) {
+            return this.message(msg, "log-message", timeout);
+        },
+        warn: function (msg, timeout) {
+            return this.message(msg, "warn-message", timeout);
+        },
+        error: function (msg, timeout) {
+            return this.message(msg, "error-message", timeout);
+        },
+        message: function (msg, style, timeout) {
+            if (!msg) return;
+            return $.snackbar({
+                content: msg,
+                style: style,
+                timeout: timeout || DEFAULT_TIMEOUT
+            });
+        }
+    }
+
+});
 !function(a,b,c,d){function e(b,c){g=this,this.element=a(b),this.options=a.extend({},h,c),this._defaults=h,this._name=f,this.init()}var f="ripples",g=null,h={};e.prototype.init=function(){var c=this.element;c.on("mousedown touchstart",function(d){if(!g.isTouch()||"mousedown"!==d.type){c.find(".ripple-wrapper").length||c.append('<div class="ripple-wrapper"></div>');var e=c.children(".ripple-wrapper"),f=g.getRelY(e,d),h=g.getRelX(e,d);if(f||h){var i=g.getRipplesColor(c),j=a("<div></div>");j.addClass("ripple").css({left:h,top:f,"background-color":i}),e.append(j),function(){return b.getComputedStyle(j[0]).opacity}(),g.rippleOn(c,j),setTimeout(function(){g.rippleEnd(j)},500),c.on("mouseup mouseleave touchend",function(){j.data("mousedown","off"),"off"===j.data("animating")&&g.rippleOut(j)})}}})},e.prototype.getNewSize=function(a,b){return Math.max(a.outerWidth(),a.outerHeight())/b.outerWidth()*2.5},e.prototype.getRelX=function(a,b){var c=a.offset();return g.isTouch()?(b=b.originalEvent,1!==b.touches.length?b.touches[0].pageX-c.left:!1):b.pageX-c.left},e.prototype.getRelY=function(a,b){var c=a.offset();return g.isTouch()?(b=b.originalEvent,1!==b.touches.length?b.touches[0].pageY-c.top:!1):b.pageY-c.top},e.prototype.getRipplesColor=function(a){var c=a.data("ripple-color")?a.data("ripple-color"):b.getComputedStyle(a[0]).color;return c},e.prototype.hasTransitionSupport=function(){var a=c.body||c.documentElement,b=a.style,e=b.transition!==d||b.WebkitTransition!==d||b.MozTransition!==d||b.MsTransition!==d||b.OTransition!==d;return e},e.prototype.isTouch=function(){return/Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent)},e.prototype.rippleEnd=function(a){a.data("animating","off"),"off"===a.data("mousedown")&&g.rippleOut(a)},e.prototype.rippleOut=function(a){a.off(),g.hasTransitionSupport()?a.addClass("ripple-out"):a.animate({opacity:0},100,function(){a.trigger("transitionend")}),a.on("transitionend webkitTransitionEnd oTransitionEnd MSTransitionEnd",function(){a.remove()})},e.prototype.rippleOn=function(a,b){var c=g.getNewSize(a,b);g.hasTransitionSupport()?b.css({"-ms-transform":"scale("+c+")","-moz-transform":"scale("+c+")","-webkit-transform":"scale("+c+")",transform:"scale("+c+")"}).addClass("ripple-on").data("animating","on").data("mousedown","on"):b.animate({width:2*Math.max(a.outerWidth(),a.outerHeight()),height:2*Math.max(a.outerWidth(),a.outerHeight()),"margin-left":-1*Math.max(a.outerWidth(),a.outerHeight()),"margin-top":-1*Math.max(a.outerWidth(),a.outerHeight()),opacity:.2},500,function(){b.trigger("transitionend")})},a.fn.ripples=function(b){return this.each(function(){a.data(this,"plugin_"+f)||a.data(this,"plugin_"+f,new e(this,b))})}}(jQuery,window,document);
 //# sourceMappingURL=ripples.min.js.map
 ;
 define("ripples", ["material"], function(){});
 
+/**
+ * Created by Sergei on 19.04.15.
+ */
+define('sw',["messages"], function (msg) {
+    var modluleInstance;
+    var defaultParams = {
+        worker: {
+            file: 'sw.js',
+            settings: {
+                scope: './'
+            }
+        }
+    };
+    var ServiceWorkerModule = function ServiceWorkerModule(params) {
+        this.init(params);
+    };
+
+    ServiceWorkerModule.prototype = {
+        constructor: ServiceWorkerModule,
+        init: function (params) {
+            params = params || defaultParams;
+            if (!('serviceWorker' in navigator)) {
+                var error = 'ServiceWorker is not available in current web browser, use another one.';
+                msg.error(error);
+                throw  new Error(error);
+            }
+            return this.
+                _registerWorker(params.worker)
+                .then(function () {
+                    if (!navigator.serviceWorker.controller) {
+                        msg.info('If you want use cache, reload page, please.', 8000);
+                    }
+                });
+        },
+        status: {
+            isRegistered: false,
+            cacheName: null,
+            urls: 0,
+            errors: []
+        },
+        _registerWorker: function (worker) {
+            var self = this;
+            return navigator.serviceWorker
+                .register(worker.file, worker.settings)
+                .then(function (registration) {
+                    self.status.isRegistered = true;
+                    console.info('ServiceWorker registration successful with scope: ', registration.scope);
+                }).catch(function (err) {
+                    self.status.errors.push(err);
+                    console.error('ServiceWorker registration failed: ', err);
+                });
+        },
+        channel: {
+            trigger: function (msg) {
+                console.info(msg)
+            }
+        },
+        sendMessage: function (msg) {
+            // This wraps the message posting/response in a promise, which will resolve if the response doesn't
+            // contain an error, and reject with the error if it does. If you'd prefer, it's possible to call
+            // controller.postMessage() and set up the onmessage handler independently of a promise, but this is
+            // a convenient wrapper.
+            return new Promise(function (resolve, reject) {
+                if (!navigator.serviceWorker.controller) {
+                    return reject(new Error('ServiceWorker just started, messages don\'t work. Reload page, please.'));
+                }
+                var messageChannel = new MessageChannel();
+                messageChannel.port1.onmessage = function (event) {
+                    if (event.data.error) {
+                        reject(event.data.error);
+                    } else {
+                        resolve(event.data);
+                    }
+                };
+
+                // This sends the message data as well as transferring messageChannel.port2 to the service worker.
+                // The service worker can then use the transferred port to reply via postMessage(), which
+                // will in turn trigger the onmessage handler on messageChannel.port1.
+                // See https://html.spec.whatwg.org/multipage/workers.html#dom-worker-postmessage
+                navigator.serviceWorker.controller.postMessage(msg, [messageChannel.port2]);
+            });
+        },
+        getStatus: function () {
+            return this.sendMessage({
+                fn: 'getStatus'
+            });
+        },
+        cacheUrls : function(urls){
+            return this.sendMessage({
+                fn: 'cacheUrls',
+                args: [urls]
+            });
+        },
+        cacheUrl : function(url){
+            return this.cacheUrls([url]);
+        },
+        deleteUrl : function(url){
+            return this.deleteUrls([url]);
+        },
+        deleteUrls : function(urls){
+            return this.sendMessage({
+                fn : 'deleteUrls',
+                args: [urls]
+            })
+        }
+    };
+
+    return function (params) {
+        if (!modluleInstance) {
+            modluleInstance = new ServiceWorkerModule(params);
+        }
+        return modluleInstance;
+    }
+});
 //     Backbone.js 1.1.2
 
 //     (c) 2010-2014 Jeremy Ashkenas, DocumentCloud and Investigative Reporters & Editors
@@ -5757,7 +5910,7 @@ define("ripples", ["material"], function(){});
   };
 
   // Cached regex for stripping a leading hash/slash and trailing space.
-  var routeStripper = /^[\/]|\s+$/g;
+  var routeStripper = /^[#\/]|\s+$/g;
 
   // Cached regex for stripping leading and trailing slashes.
   var rootStripper = /^\/+|\/+$/g;
@@ -6045,320 +6198,6 @@ define('const',[], function () {
     };
 });
 /**
- * Created by Sergei on 14.04.15.
- */
-define('utils',["backbone", "underscore", "const"], function (Backbone, _, constants) {
-    
-
-    var MINUTE = 60;
-    var HOUR = 60 * MINUTE;
-    var DAY = HOUR * 24;
-    var MONTH = DAY * 30;
-    var YEAR = DAY * 365;
-    var regexReddit = /\/r\//g
-
-    var App;
-
-    return new function () {
-        var self = this;
-
-        self.getQueryFromCurrentUrl = function () {
-            return Backbone.history.location.search.split('/').slice(1);
-        };
-
-        self.extendTpls = function (tpls, app) {
-            App = app;
-            tpls._ = _;
-            tpls.$utils = self;
-            _.templateSettings = {
-                evaluate: /\{\{(.+?)\}\}/g,
-                interpolate: /\{\{=(.+?)\}\}/g,
-                escape: /\{\{-(.+?)\}\}/g,
-                variable: 'o'
-            };
-            tpls.$app = App;
-            tpls.$href = function (link) {
-                return App.rootUrl + link;
-            };
-            tpls.$fragment = Backbone.history.fragment;
-            tpls.$decode = function (encoded, o) {
-                if(o.body.slice(0,3) === '/r/'){
-                    encoded = encoded.replace(regexReddit, App.rootUrl);
-                }
-                var div = document.createElement('div');
-                div.innerHTML = encoded;
-                var decoded = div.firstChild.nodeValue;
-                div = null;
-                if(encoded.indexOf('CatsAreAssholes') > -1) console.error(o);
-                return decoded;
-            };
-
-            tpls.$permalink = function (hash) {
-                return App.navModel.getPermalink(hash)
-            };
-        };
-
-
-        self.registerServiceWorker = function () {
-            if ('serviceWorker' in navigator) {
-                navigator.serviceWorker.register('sw.js', {
-                    //scope : '/dist/'
-                }).then(function (registration) {
-                    console.log('ServiceWorker registration successful with scope: ', registration.scope);
-                }).catch(function (err) {
-                    console.error('ServiceWorker registration failed: ', err);
-                });
-            } else {
-                alert('ServiceWorket is not supported, close your old browser!');
-            }
-        };
-
-        self.capitalizeFirst = function (str) {
-            return str.charAt(0).toUpperCase() + str.slice(1);
-        };
-
-        self.getNavbarList = function () {
-            return _.map(constants.SECTIONS, function (section) {
-                return {
-                    section: section,
-                    name: self.capitalizeFirst(section)
-                }
-            });
-        };
-
-        self.currentFragment = function () {
-            var Router = App.router,
-                fragment = Backbone.history.fragment,
-                routes = _.pairs(Router.routes),
-                route = null,
-                params = null,
-                matched;
-
-            matched = _.find(routes, function (handler) {
-                route = _.isRegExp(handler[0]) ? handler[0] : Router._routeToRegExp(handler[0]);
-                return route.test(fragment);
-            });
-
-            if (matched) {
-                params = Router._extractParameters(route, fragment);
-                route = matched[1];
-            }
-
-            return {
-                route: route,
-                fragment: fragment,
-                params: params
-            };
-        };
-
-        self.readableDate = function (date, withTime) {
-            if (withTime === undefined) withTime = true;
-            if ((Date.now() - date) / YEAR * 1000 > 10)
-                date *= 1000;
-            date = (new Date(date));
-            var res = date.toLocaleDateString();
-            if (withTime) {
-                res += ' - ' + ('00' + date.getHours()).slice(-2);
-                res += ':' + ('00' + date.getMinutes()).slice(-2);
-                res += ':' + ('00' + date.getSeconds()).slice(-2);
-            }
-            return res;
-        };
-
-        self.timeDiff = function (date) {
-            if ((Date.now() - date) / (365 * 24 * 60 * 60 * 1000) > 10)
-                date *= 1000;
-            var diff = (Date.now() - date) / 1000;
-            if (diff < MINUTE) {
-                return 'just now';
-            }
-            if (diff < HOUR) {
-                return Math.round(diff / MINUTE) + ' minutes ago';
-            }
-            if (diff < DAY) {
-                return Math.round(diff / HOUR) + ' hours ago';
-            }
-            if (diff < MONTH) {
-                return Math.round(diff / DAY) + ' days ago';
-            }
-            if (diff < YEAR) {
-                return Math.round(diff / MONTH) + ' months ago';
-            }
-            return 'a long time ago'
-        };
-
-        self._nextTickStack = [];
-        self._tickTimeout = null;
-        self.nextTick = function (func) {
-            var self = this;
-            this._nextTickStack.push(func);
-            if (this._tickTimeout) clearTimeout(this._tickTimeout);
-            setTimeout(function () {
-                self._nextTickStack.forEach(function (ex) {
-                    ex();
-                });
-            }, 0);
-        };
-
-    };
-});
-
-define('tpls',[],function () {
-var $$ = {};
-$$['Comment'] = function(o){var __t,__p='',__j=Array.prototype.join,print=function(){__p+=__j.call(arguments,'');};__p+='<li class="comment-item">\n    <div id="comment-'+((__t=( o.id ))==null?'':__t)+'">\n        '; if('count' in o){ __p+='\n        <span class="load-mode-comments text-muted"> show '+((__t=( o.count ))==null?'':__t)+' more</span>\n        '; }else{ __p+='\n\n        <i class="mdi-navigation-unfold-less collapse-tree" data-collapsed="false"></i>\n        <strong class="author">'+((__t=( o.author ))==null?'':__t)+'</strong>\n        <span class="text-muted">'+((__t=( o.score))==null?'':__t)+' points  '+((__t=( $$.$utils.timeDiff(o.created) ))==null?'':__t)+'</span>\n        <a href="'+((__t=( $$.$permalink(o.id) ))==null?'':__t)+'" class="fake-link">\n            <i class="glyphicon glyphicon-link text-muted" title="permalink"></i>\n        </a>\n        <br/>\n        <div class="comment-content">'+((__t=( $$.$decode(o.body_html, o) ))==null?'':__t)+'</div>\n\n        <ul class="replies">\n            '; o.replies.forEach(function(node){ __p+='\n                '+((__t=( $$.Comment(node) ))==null?'':__t)+'\n            '; }); __p+='\n        </ul>\n\n        '; } __p+='\n    </div>\n</li>\n';return __p;};
-$$['CommentList'] = function(o){var __t,__p='',__j=Array.prototype.join,print=function(){__p+=__j.call(arguments,'');};__p+='<div id="post-wrapper" class="post-wrapper"></div>\n<div class="post-order-wrapper">\n    <div class="btn-group">\n        <a class="btn btn-primary" href="javascript:void(0)">\n            <i class="glyphicon glyphicon-sort-by-attributes-alt"></i>\n            '+((__t=( o.commentOrder ))==null?'':__t)+'\n        </a>\n        <a  class="btn btn-primary dropdown-toggle"\n            data-toggle="dropdown"\n            href="javascript:void(0)">\n            <span class="caret"></span>\n        </a>\n        <ul class="dropdown-menu">\n            '; o.orders.forEach(function(el, n){ __p+='\n            <li class="change-order" data-order="'+((__t=( el ))==null?'':__t)+'">\n                <a>'+((__t=( el.toUpperCase() ))==null?'':__t)+'</a>\n            </li>\n            '; }); __p+='\n        </ul>\n    </div>\n</div>\n<ul id="commetn-list" class="comment-list">\n    '; o.items.forEach(function(el, n){ __p+='\n    '+((__t=( $$.Comment(el, n) ))==null?'':__t)+'\n    '; }); __p+='\n</ul>';return __p;};
-$$['NavBar'] = function(o){var __t,__p='',__j=Array.prototype.join,print=function(){__p+=__j.call(arguments,'');};__p+='<ul class="nav navbar-nav">\n    '; o.items.forEach(function(item){ __p+='\n    <li class="'+((__t=( item.isCurrent ? 'active' : '' ))==null?'':__t)+'">\n        <a\n                href="'+((__t=( item.href ))==null?'':__t)+'"\n                class="fake-link navlink"\n                data-toggle="collapse"\n                data-target=".navbar-collapse"\n                >\n            '+((__t=( item.name ))==null?'':__t)+'\n        </a>\n    </li>\n    '; }); __p+='\n    <!--<li class="topic-title text-center" id="topic-title">-->\n        <!--<a></a>-->\n    <!--</li>-->\n</ul>\n\n<form class="navbar-form navbar-right">\n    <input\n            id="search"\n            type="text"\n            class="form-control col-lg-8"\n            placeholder="Search"\n            value="'+((__t=( o.search ? o.search : '' ))==null?'':__t)+'">\n</form>\n<ul class="nav navbar-nav navbar-right">\n</ul>\n';return __p;};
-$$['PageNav'] = function(o){var __t,__p='',__j=Array.prototype.join,print=function(){__p+=__j.call(arguments,'');};__p+='<a href="" class="btn-back btn btn-primary '+((__t=( o.back ? '' : 'disabled'))==null?'':__t)+'">\n    <i class="mdi-navigation-arrow-back"></i>\n</a>\n<a href="'+((__t=( o.nav.after ))==null?'':__t)+'" class="fake-link btn btn-primary '+((__t=( o.after ? '' : 'disabled'))==null?'':__t)+'">\n    <i class="mdi-navigation-arrow-forward"></i>\n</a>';return __p;};
-$$['Post'] = function(o){var __t,__p='',__j=Array.prototype.join,print=function(){__p+=__j.call(arguments,'');};__p+='<article class="thing sample shadow-z-1" id="'+((__t=( o.id ))==null?'':__t)+'">\n    '; if(o.thumbnailClassName){ __p+='\n    <div class="thumbnail '+((__t=( o.thumbnailClassName ))==null?'':__t)+'"></div>\n    '; }else if(o.thumbnail){ __p+='\n    <img src="'+((__t=( o.thumbnail ))==null?'':__t)+'" class="thumbnail"/>\n    '; } __p+='\n    <div class="description">\n        <span class="title">\n            '+((__t=( o.title ))==null?'':__t)+'\n            <strong class="score hidden-lg">('+((__t=( o.score ))==null?'':__t)+')</strong>\n        </span>\n        <br/>\n\n        <span class="details text-muted">\n            submitted '+((__t=( $$.$utils.timeDiff(o.created) ))==null?'':__t)+' by\n            <strong class="author">'+((__t=( o.author ))==null?'':__t)+'</strong> to\n            <a href="?/'+((__t=( o.subreddit ))==null?'':__t)+'" class="fake-link">\n                /'+((__t=( o.subreddit ))==null?'':__t)+'\n            </a>\n        </span>\n        <a href="?/'+((__t=( o.subreddit + '/t/' + o.id ))==null?'':__t)+'" class="fake-link text-info">\n            '+((__t=( o.num_comments ))==null?'':__t)+' comments\n        </a>\n    </div>\n    <div class="score visible-lg">\n        '+((__t=( o.score ))==null?'':__t)+'\n    </div>\n    <div class="clearfix"></div>\n</article>';return __p;};
-$$['PostList'] = function(o){var __t,__p='',__j=Array.prototype.join,print=function(){__p+=__j.call(arguments,'');};__p+=''; o.items.forEach(function(el, n){ __p+='\n'+((__t=( $$.Post(el) ))==null?'':__t)+'\n'; }); __p+='\n\n<div class="page-nav" id="page-nav">\n\n</div>';return __p;};
-$$['Root'] = function(o){var __t,__p='',__j=Array.prototype.join,print=function(){__p+=__j.call(arguments,'');};__p+='<nav class="navbar navbar-default navbar-fixed-top">\n    <div class="container">\n        <div class="navbar-header">\n            <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar"\n                    aria-expanded="false" aria-controls="navbar">\n                <span class="sr-only">Toggle navigation</span>\n                <span class="icon-bar"></span>\n                <span class="icon-bar"></span>\n                <span class="icon-bar"></span>\n            </button>\n            <a class="navbar-brand" href="'+((__t=( $$.$app.rootUrl ))==null?'':__t)+'">\n                <i class="glyphicon glyphicon-refresh"></i>\n            </a>\n            <a class="navbar-brand fake-link" href="?/">/</a>\n        </div>\n        <div id="navbar" class="navbar-collapse collapse">\n\n        </div>\n    </div>\n</nav>\n<!--<div id="progress-indicator" class="progress progress-striped active progress-indicator">-->\n    <!--<div class="progress-bar" style="width: 100%"></div>-->\n<!--</div>-->\n<div id="container" class="container">\n    <div id="content"></div>\n</div>\n';return __p;};
-return $$;
-});
-/**
- * Created by Sergei on 17.04.15.
- */
-define('models/NavModel',["const", "backbone", "utils"], function (constants, Backbone, utils) {
-    
-    var NavModel = Backbone.Model.extend({
-        initialize: function () {
-            var self = this;
-            _.bindAll(this, 'updateSearch');
-            this.listenTo(Backbone.channel, 'search:query', this.updateSearch);
-            this.on('change:search', function (data) {
-                if (self.previous('search') !== data.get('search')) {
-                    self.set({after: null}, {silent: true});
-                }
-            })
-        },
-
-        defaults: function () {
-            return {
-                id: 0,
-                pageId: null,
-                section: constants.SECTIONS[0],
-                after: null,
-                topic: null,
-                comment: null,
-                search: null
-            }
-        },
-        /**
-         *
-         * @param {String} pageId
-         * @param {String} section
-         * @param {String} topic
-         * @param {String} after
-         */
-        setState: function (pageId, section, topic, after) {
-            this.set({
-                pageId: pageId,
-                section: section,
-                after: after,
-                topic: topic
-            }, {silent: true});
-        },
-
-        _getUrl: function (section, after, opt) {
-            opt = opt || {};
-            var topic = this.get('topic');
-            var section = section || this.get('section');
-            var after = after || this.get('after');
-            var pageId = this.get('pageId');
-            var search = this.get('search');
-            var url = '?';
-            if (pageId)
-                url += '/' + pageId;
-            if (section) {
-                url += '/s/' + section;
-            } else if (topic !== null) {
-                url += '/t/' + topic;
-            }
-            if (search) {
-                url += '/q/' + search;
-            }
-            if (opt.nav) return url;
-            if (opt.comment) {
-                url += '/c/' + opt.comment;
-            }
-            if (after) {
-                url += '/a/' + after;
-            }
-            return url;
-
-        },
-
-        getNavBarObject: function () {
-            var self = this;
-            var topic = self.get('topic');
-            if (topic) {
-                return [{
-                    href: self.get('pageId'),
-                    name: self.get('pageId'),
-                    isCurrent: true
-                }];
-            }
-            var navbarList = _.map(constants.SECTIONS, function (section) {
-                return {
-                    href: self._getUrl(section, null, {nav: true}),
-                    name: utils.capitalizeFirst(section),
-                    isCurrent: section == self.get('section')
-                }
-            });
-            console.log(navbarList);
-            return navbarList;
-        },
-
-        /*?/:id/s/:section/a/:after*/
-        getLinkPostsAfter: function (after) {
-            return this._getUrl(null, after);
-        },
-
-        getPermalink: function (hash) {
-            return this._getUrl(null, null, {comment: hash});
-        },
-
-        updateSearch: function (query) {
-            this.set({search: query});
-        }
-    });
-
-    return new NavModel();
-});
-/**
- * Created by Sergei on 14.04.15.
- */
-define('app',['require','backbone','const','models/NavModel'],function (require) {
-    var Backbone = require("backbone");
-    var constants = require("const");
-    var navModel = require("models/NavModel");
-    
-
-	var App = {
-		start: function () {
-			console.log('history start');
-            App.controller.onStart();
-            Backbone.history.start({pushState: true, root: window.location.pathname});
-			App.channel.trigger('app:start');
-		},
-		navigate: function (url, trigger) {
-			trigger = (trigger === undefined) ? true : !!trigger;
-			App.router.navigate(url, {trigger: trigger});
-		},
-        navModel : navModel,
-        views : {},
-		channel: Backbone.channel,
-		constants: constants,
-		$root: $('#root'),
-		$navbar: null,
-		$container: null,
-		rootUrl: window.location.pathname + '?/'
-	};
-    if(DEBUG){
-        window.App = App;
-    }
-	return App;
-});
-/**
  * Reddit API wrapper for the browser (https://git.io/Mw39VQ)
  * @author Sahil Muthoo <sahil.muthoo@gmail.com> (https://www.sahilm.com)
  * @license MIT
@@ -6431,6 +6270,20 @@ define('app',['require','backbone','const','models/NavModel'],function (require)
     };
     return withFilters(on, ["omit"]);
   };
+
+     reddit.morechildren = function(comment, subreddit_id){
+         var on = {
+             resource: "api/morechildren",
+             params: {
+                 id : comment.name,
+                 link_id: subreddit_id,
+                 children: comment.replies.join(','),
+                 api_type: 'json'
+             }
+             //subreddit : subreddit
+         };
+         return fetch(on);
+     };
 
   reddit.subredditsByTopic = function (query) {
     var on = {
@@ -6589,10 +6442,316 @@ define("reddit", (function (global) {
 }(this)));
 
 /**
+ * Created by Sergei on 14.04.15.
+ */
+define('utils',["backbone", "underscore", "const", "reddit"], function (Backbone, _, constants, reddit) {
+    
+
+    var MINUTE = 60;
+    var HOUR = 60 * MINUTE;
+    var DAY = HOUR * 24;
+    var MONTH = DAY * 30;
+    var YEAR = DAY * 365;
+    var regexReddit = /\/r\//g;
+
+    var App;
+
+    function decodeHtml(encoded, o) {
+        if (o && o.body && o.body.slice(0, 3) === '/r/') {
+            encoded = encoded.replace(regexReddit, App.rootUrl);
+        }
+        var div = document.createElement('div');
+        div.innerHTML = encoded;
+        var decoded = div.firstChild.nodeValue;
+        div = null;
+        return decoded;
+    }
+
+    return new function () {
+        var self = this;
+
+        self.getQueryFromCurrentUrl = function () {
+            return Backbone.history.location.search.split('/').slice(1);
+        };
+
+        self.extendTpls = function (tpls, app) {
+            App = app;
+            tpls._ = _;
+            tpls.$utils = self;
+            _.templateSettings = {
+                evaluate: /\{\{(.+?)\}\}/g,
+                interpolate: /\{\{=(.+?)\}\}/g,
+                escape: /\{\{-(.+?)\}\}/g,
+                variable: 'o'
+            };
+            tpls.$app = App;
+            tpls.$href = function (link) {
+                return App.rootUrl + link;
+            };
+            tpls.$fragment = Backbone.history.fragment;
+            tpls.$decode = decodeHtml;
+
+            tpls.$permalink = function (hash) {
+                return App.navModel.getPermalink(hash)
+            };
+            self.decodeHtml = decodeHtml;
+        };
+
+        self.capitalizeFirst = function (str) {
+            return str.charAt(0).toUpperCase() + str.slice(1);
+        };
+
+        self.getNavbarList = function () {
+            return _.map(constants.SECTIONS, function (section) {
+                return {
+                    section: section,
+                    name: self.capitalizeFirst(section)
+                }
+            });
+        };
+
+        self.currentFragment = function () {
+            var Router = App.router,
+                fragment = Backbone.history.fragment,
+                routes = _.pairs(Router.routes),
+                route = null,
+                params = null,
+                matched;
+
+            matched = _.find(routes, function (handler) {
+                route = _.isRegExp(handler[0]) ? handler[0] : Router._routeToRegExp(handler[0]);
+                return route.test(fragment);
+            });
+
+            if (matched) {
+                params = Router._extractParameters(route, fragment);
+                route = matched[1];
+            }
+
+            return {
+                route: route,
+                fragment: fragment,
+                params: params
+            };
+        };
+
+        self.readableDate = function (date, withTime) {
+            if (withTime === undefined) withTime = true;
+            if ((Date.now() - date) / YEAR * 1000 > 10)
+                date *= 1000;
+            date = (new Date(date));
+            var res = date.toLocaleDateString();
+            if (withTime) {
+                res += ' - ' + ('00' + date.getHours()).slice(-2);
+                res += ':' + ('00' + date.getMinutes()).slice(-2);
+                res += ':' + ('00' + date.getSeconds()).slice(-2);
+            }
+            return res;
+        };
+
+        self.timeDiff = function (date) {
+            if ((Date.now() - date) / (365 * 24 * 60 * 60 * 1000) > 10)
+                date *= 1000;
+            var diff = (Date.now() - date) / 1000;
+            if (diff < MINUTE) {
+                return 'just now';
+            }
+            if (diff < HOUR) {
+                return Math.round(diff / MINUTE) + ' minutes ago';
+            }
+            if (diff < DAY) {
+                return Math.round(diff / HOUR) + ' hours ago';
+            }
+            if (diff < MONTH) {
+                return Math.round(diff / DAY) + ' days ago';
+            }
+            if (diff < YEAR) {
+                return Math.round(diff / MONTH) + ' months ago';
+            }
+            return 'a long time ago'
+        };
+
+        self._nextTickStack = [];
+        self._tickTimeout = null;
+        self.nextTick = function (func) {
+            var self = this;
+            this._nextTickStack.push(func);
+            if (this._tickTimeout) clearTimeout(this._tickTimeout);
+            setTimeout(function () {
+                self._nextTickStack.forEach(function (ex) {
+                    ex();
+                });
+            }, 0);
+        };
+
+    };
+});
+
+define('tpls',[],function () {
+var $$ = {};
+$$['Comment'] = function(o){var __t,__p='',__j=Array.prototype.join,print=function(){__p+=__j.call(arguments,'');};__p+='<li class="comment-item '+((__t=( o.count ? 'short-list' : 'full-list' ))==null?'':__t)+'" id="comment-'+((__t=( o.id ))==null?'':__t)+'">\n    '; if(o.count){ __p+='\n    <span class="load-mode-comments text-muted" data-id="'+((__t=( o.id ))==null?'':__t)+'">show '+((__t=( o.count ))==null?'':__t)+' more</span>\n    '; }else if(!('count' in o)){ __p+='\n\n    <i class="mdi-navigation-unfold-less collapse-tree" data-collapsed="false"></i>\n    <strong class="author">'+((__t=( o.author ))==null?'':__t)+'</strong>\n    <span class="text-muted">'+((__t=( o.score))==null?'':__t)+' points  '+((__t=( $$.$utils.timeDiff(o.created) ))==null?'':__t)+'</span>\n    <a href="'+((__t=( $$.$permalink(o.id) ))==null?'':__t)+'" class="fake-link">\n        <i class="mdi-content-link permalink text-muted" title="permalink"></i>\n    </a>\n    <br/>\n\n    <div class="comment-content">'+((__t=( $$.$decode(o.body_html, o) ))==null?'':__t)+'</div>\n\n    <ul class="replies">\n        '; o.replies && o.replies.forEach(function(node){ __p+='\n        '+((__t=( $$.Comment(node) ))==null?'':__t)+'\n        '; }); __p+='\n    </ul>\n\n    '; } __p+='\n</li>\n';return __p;};
+$$['CommentList'] = function(o){var __t,__p='',__j=Array.prototype.join,print=function(){__p+=__j.call(arguments,'');};__p+='<div id="post-wrapper" class="post-wrapper"></div>\n<div class="post-order-wrapper">\n    <div class="btn-group">\n        <a class="btn btn-primary" href="javascript:void(0)">\n            <i class="mdi-content-sort mdi-icon"></i>\n            '+((__t=( o.commentOrder ))==null?'':__t)+'\n        </a>\n        <a class="btn btn-primary dropdown-toggle"\n           data-toggle="dropdown"\n           href="javascript:void(0)">\n            <span class="caret"></span>\n        </a>\n        <ul class="dropdown-menu">\n            '; o.orders.forEach(function(el, n){ __p+='\n            <li class="change-order" data-order="'+((__t=( el ))==null?'':__t)+'">\n                <a>'+((__t=( el.toUpperCase() ))==null?'':__t)+'</a>\n            </li>\n            '; }); __p+='\n        </ul>\n    </div>\n</div>\n<ul id="commetn-list" class="comment-list">\n    '; o.items.forEach(function(el, n){ __p+='\n    '+((__t=( $$.Comment(el, n) ))==null?'':__t)+'\n    '; }); __p+='\n</ul>';return __p;};
+$$['NavBar'] = function(o){var __t,__p='',__j=Array.prototype.join,print=function(){__p+=__j.call(arguments,'');};__p+='<ul class="nav navbar-nav">\n    '; o.items.forEach(function(item){ __p+='\n    <li class="'+((__t=( item.isCurrent ? 'active' : '' ))==null?'':__t)+'">\n        <a\n                href="'+((__t=( item.href ))==null?'':__t)+'"\n                class="fake-link navlink"\n                data-toggle="collapse"\n                data-target=".navbar-collapse.in"\n                >\n            '+((__t=( item.name ))==null?'':__t)+'\n        </a>\n    </li>\n    '; }); __p+='\n    <!--<li class="topic-title text-center" id="topic-title">-->\n    <!--<a></a>-->\n    <!--</li>-->\n</ul>\n\n<form class="navbar-form navbar-right">\n    <input\n            id="search"\n            type="text"\n            class="form-control col-lg-8"\n            placeholder="Search"\n            value="'+((__t=( o.search ? o.search : '' ))==null?'':__t)+'">\n</form>\n<ul class="nav navbar-nav navbar-right">\n</ul>\n';return __p;};
+$$['PageNav'] = function(o){var __t,__p='',__j=Array.prototype.join,print=function(){__p+=__j.call(arguments,'');};__p+='<a href="" class="btn-back btn btn-primary col-sm-3 col-xs-5 col-md-2 '+((__t=( o.back ? '' : 'disabled'))==null?'':__t)+'">\n    <i class="mdi-navigation-arrow-back"></i>\n</a>\n<a href="'+((__t=( o.nav.after ))==null?'':__t)+'"\n   class="fake-link btn btn-primary col-sm-3 col-xs-5 col-md-2 col-md-push-1 '+((__t=( o.after ? '' : 'disabled'))==null?'':__t)+'">\n    <i class="mdi-navigation-arrow-forward"></i>\n</a>';return __p;};
+$$['Post'] = function(o){var __t,__p='',__j=Array.prototype.join,print=function(){__p+=__j.call(arguments,'');};__p+='<article class="thing sample shadow-z-1" id="'+((__t=( o.id ))==null?'':__t)+'">\n    '; if(o.thumbnailClassName){ __p+='\n    <a href="'+((__t=( o.url ))==null?'':__t)+'" class="thumbnail '+((__t=( o.thumbnailClassName ))==null?'':__t)+'"></a>\n    '; }else if(o.thumbnail){ __p+='\n    <a href="'+((__t=( o.url ))==null?'':__t)+'" class="thumbnail-wrapper">\n        <img src="'+((__t=( o.thumbnail ))==null?'':__t)+'" class="thumbnail"/>\n    </a>\n    '; }else{ __p+='\n    <a href="'+((__t=( o.url ))==null?'':__t)+'" class="thumbnail-wrapper">\n        <i class="mdi-content-link" title="source"></i>\n    </a>\n    '; } __p+='\n    <div class="description">\n        <strong class="title">\n            '+((__t=( o.title ))==null?'':__t)+'\n            <strong class="score hidden-lg">('+((__t=( o.score ))==null?'':__t)+')</strong>\n        </strong>\n        <br/>\n\n        '; if(o.selftext_html){ __p+='\n        '+((__t=( o.selftext_html ))==null?'':__t)+'\n        '; } __p+='\n\n        <span class="details text-muted">\n            submitted '+((__t=( $$.$utils.timeDiff(o.created) ))==null?'':__t)+' by\n            <strong class="author">'+((__t=( o.author ))==null?'':__t)+'</strong> to\n            <a href="?/'+((__t=( o.subreddit ))==null?'':__t)+'" class="fake-link">\n                /'+((__t=( o.subreddit ))==null?'':__t)+'\n            </a>\n        </span>\n        <a href="?/'+((__t=( o.subreddit + '/t/' + o.id ))==null?'':__t)+'" class="fake-link text-info">\n            '+((__t=( o.num_comments ))==null?'':__t)+' comments\n        </a>\n    </div>\n    <div class="score visible-lg">\n        '+((__t=( o.score ))==null?'':__t)+'\n    </div>\n    <div class="clearfix"></div>\n</article>';return __p;};
+$$['PostList'] = function(o){var __t,__p='',__j=Array.prototype.join,print=function(){__p+=__j.call(arguments,'');};__p+=''; o.items.forEach(function(el, n){ __p+='\n'+((__t=( $$.Post(el) ))==null?'':__t)+'\n'; }); __p+='\n\n<div class="page-nav" id="page-nav">\n\n</div>';return __p;};
+$$['Root'] = function(o){var __t,__p='',__j=Array.prototype.join,print=function(){__p+=__j.call(arguments,'');};__p+='<nav class="navbar navbar-default navbar-fixed-top">\n    <div class="container">\n        <div class="navbar-header">\n            <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar"\n                    aria-expanded="false" aria-controls="navbar">\n                <span class="sr-only">Toggle navigation</span>\n                <span class="icon-bar"></span>\n                <span class="icon-bar"></span>\n                <span class="icon-bar"></span>\n            </button>\n            <a class="navbar-brand" href="'+((__t=( $$.$app.rootUrl ))==null?'':__t)+'">\n                <i class="mdi-action-autorenew"></i>\n            </a>\n            <a class="navbar-brand fake-link" href="?/">\n                <i class="mdi-action-home"></i>\n            </a>\n        </div>\n        <div id="navbar" class="navbar-collapse collapse">\n\n        </div>\n    </div>\n</nav>\n<!--<div id="progress-indicator" class="progress progress-striped active progress-indicator">-->\n<!--<div class="progress-bar" style="width: 100%"></div>-->\n<!--</div>-->\n<div id="container" class="container">\n    <div id="content"></div>\n</div>\n<div id="snackbar-container"></div>';return __p;};
+return $$;
+});
+/**
+ * Created by Sergei on 17.04.15.
+ */
+define('models/NavModel',["const", "backbone", "utils"], function (constants, Backbone, utils) {
+    
+    var NavModel = Backbone.Model.extend({
+        initialize: function () {
+            var self = this;
+            _.bindAll(this, 'updateSearch');
+            this.listenTo(Backbone.channel, 'search:query', this.updateSearch);
+            //this.on('change:search', function (data) {
+            //
+            //})
+        },
+
+        defaults: function () {
+            return {
+                id: 0,
+                pageId: null,
+                section: constants.SECTIONS[0],
+                after: null,
+                topic: null,
+                comment: null,
+                search: null
+            }
+        },
+        /**
+         *
+         * @param {String} pageId
+         * @param {String} section
+         * @param {String} topic
+         * @param {String} after
+         */
+        setState: function (pageId, section, topic, after) {
+            this.set({
+                pageId: pageId,
+                section: section,
+                after: after,
+                topic: topic
+            }, {silent: false});
+        },
+
+        _getUrl: function (section, after, opt) {
+            opt = opt || {};
+            var topic = this.get('topic');
+            var section = section || this.get('section');
+            var after = after || this.get('after');
+            var pageId = this.get('pageId');
+            var search = this.get('search');
+            var url = '?';
+            if (pageId)
+                url += '/' + pageId;
+            if (section) {
+                url += '/s/' + section;
+            } else if (topic !== null) {
+                url += '/t/' + topic;
+            }
+            if (search && !opt.comment) {
+                url += '/q/' + search;
+            }
+            if (opt.nav) return url;
+            if (opt.comment) {
+                url += '/c/' + opt.comment;
+            }
+            if (after) {
+                url += '/a/' + after;
+            }
+            return url;
+
+        },
+
+        getNavBarObject: function () {
+            var self = this;
+            var topic = self.get('topic');
+            var currentSection = self.get('section') || constants.SECTIONS[0];
+            if (topic) {
+                return [{
+                    href: self.get('pageId'),
+                    name: self.get('pageId'),
+                    isCurrent: true
+                }];
+            }
+            var navbarList = _.map(constants.SECTIONS, function (section) {
+                return {
+                    href: self._getUrl(section, null, {nav: true}),
+                    name: utils.capitalizeFirst(section),
+                    isCurrent: section == currentSection
+                }
+            });
+            console.log(navbarList);
+            return navbarList;
+        },
+
+        /*?/:id/s/:section/a/:after*/
+        getLinkPostsAfter: function (after) {
+            return this._getUrl(null, after);
+        },
+
+        getPermalink: function (hash) {
+            return this._getUrl(null, null, {comment: hash});
+        },
+
+        updateSearch: function (query) {
+            if (this.get('search') !== query) {
+                this.set(_.extend(this.defaults(), {
+                    section: this.get('section'),
+                    search: query
+                }));
+                Backbone.channel.trigger('search:fetch')
+            }
+        }
+    });
+
+    return new NavModel();
+});
+/**
+ * Created by Sergei on 14.04.15.
+ */
+define('app',['require','backbone','const','models/NavModel'],function (require) {
+    var Backbone = require("backbone");
+    var constants = require("const");
+    var navModel = require("models/NavModel");
+    
+
+    var App = {
+        start: function () {
+            console.log('history start');
+            App.controller.onStart();
+            Backbone.history.start({pushState: true, root: window.location.pathname});
+            App.channel.trigger('app:start');
+        },
+        navigate: function (url, trigger) {
+            trigger = (trigger === undefined) ? true : !!trigger;
+            App.router.navigate(url, {trigger: trigger});
+        },
+        navModel: navModel,
+        views: {},
+        channel: Backbone.channel,
+        constants: constants,
+        $root: $('#root'),
+        $navbar: null,
+        $container: null,
+        rootUrl: window.location.pathname + '?/'
+    };
+    if (DEBUG) {
+        window.App = App;
+    }
+    return App;
+});
+/**
  * Created by Sergei on 16.04.15.
  */
-define('collections/Posts',["backbone", "underscore", "jquery", "reddit"],
-    function (Backbone, _, $, reddit) {
+define('collections/Posts',["backbone", "underscore", "jquery", "reddit", "utils"],
+    function (Backbone, _, $, reddit, utils) {
         
 
         var Posts = Backbone.Collection.extend({
@@ -6604,19 +6763,19 @@ define('collections/Posts',["backbone", "underscore", "jquery", "reddit"],
                 console.log(params);
                 var self = this;
                 return new Promise(function (resolve, reject) {
-                    if(!reddit.hasOwnProperty(params.section)){
+                    if (!reddit.hasOwnProperty(params.section)) {
                         params.section = 'hot';
                     }
-                    if(params.search){
+                    if (params.search) {
                         Backbone.channel.trigger('search:query', params.search);
                         params.sort = params.section;
                     }
                     var query;
-                    if(params.search){
+                    if (params.search) {
                         query = reddit
                             .search(params.search)
                             .sort(params.sort);
-                    }else{
+                    } else {
                         query = params.pageId
                             ? reddit[params.section](params.pageId)
                             : reddit[params.section]();
@@ -6631,7 +6790,8 @@ define('collections/Posts',["backbone", "underscore", "jquery", "reddit"],
                     query.fetch(function (res) {
                         console.log(res);
                         self.set(self.parse(res));
-                        self.trigger('sync', self, res.data.children, params);
+                        console.log(self.toJSON());
+                        self.trigger('sync', self);
                         Backbone.channel.trigger('posts:sync', params);
                         resolve(res);
                     }, function (error) {
@@ -6644,8 +6804,12 @@ define('collections/Posts',["backbone", "underscore", "jquery", "reddit"],
                 this.after = res.data.after;
                 return _.map(coll, function (el) {
                     var thumbnail = el.data.thumbnail;
-                    if (thumbnail === 'nsfw' || thumbnail === 'self' || thumbnail === 'default'){
+                    if (thumbnail === 'nsfw' || thumbnail === 'self' || thumbnail === 'default') {
                         el.data.thumbnailClassName = thumbnail;
+                        el.data.thumbnail = null;
+                    }
+                    if (el.data.selftext_html) {
+                        el.data.selftext_html = utils.decodeHtml(el.data.selftext_html)
                     }
                     return el.data;
                 });
@@ -6668,8 +6832,8 @@ define('collections/Posts',["backbone", "underscore", "jquery", "reddit"],
 /**
  * Created by Sergei on 18.04.15.
  */
-define('models/Comments',["backbone", "underscore", "jquery", "reddit", "const"],
-    function (Backbone, _, $, reddit, constants) {
+define('models/Comments',["backbone", "underscore", "jquery", "reddit", "const", "collections/Posts"],
+    function (Backbone, _, $, reddit, constants, postsCollection) {
         
 
         var Comments = Backbone.Model.extend({
@@ -6677,19 +6841,19 @@ define('models/Comments',["backbone", "underscore", "jquery", "reddit", "const"]
                 console.log('Comments coll init');
             },
 
-            defaults : function(){
+            defaults: function () {
                 return {
-                    commentOrder : constants.COMMENT_ORDER[0],
-                    orders : constants.COMMENT_ORDER
+                    commentOrder: constants.COMMENT_ORDER[0],
+                    orders: constants.COMMENT_ORDER
                 }
             },
 
-            post : {},
-            tree : {},
-            lastParams : {
-                section:constants.SECTIONS[0],
-                limit:200,
-                sort : constants.COMMENT_ORDER[0]
+            post: {},
+            tree: {},
+            lastParams: {
+                section: constants.SECTIONS[0],
+                limit: 200,
+                sort: constants.COMMENT_ORDER[0]
             },
 
             _fetch: function (params) {
@@ -6705,17 +6869,17 @@ define('models/Comments',["backbone", "underscore", "jquery", "reddit", "const"]
                     }
                     if (params.sort) {
                         query = query.sort(params.sort);
-                        self.set({'commentOrder':params.sort}, {silent:true});
+                        self.set({'commentOrder': params.sort}, {silent: true});
                     }
 
                     console.log(query);
                     query.fetch(function (res) {
                         self.tree = self.parse(res[1]);
-                        self.post = res[0].data.children[0].data;
+                        self.post = postsCollection.parse(res[0])[0];
 
                         self.set({
-                            tree : self.tree,
-                            post : self.post
+                            tree: self.tree,
+                            post: self.post
                         });
                         self.trigger('sync', self, res, params);
 
@@ -6727,10 +6891,41 @@ define('models/Comments',["backbone", "underscore", "jquery", "reddit", "const"]
                 });
             },
 
+            morechildren: function (id) {
+                var self = this,
+                    node = this.findInTree(id),
+                    subreddit = this.get('post').name;
+                console.log(id, node);
+                return new Promise(function (resolve, reject) {
+                    reddit.morechildren(node, subreddit).fetch(function (res) {
+                        var comments = [];
+                        if (res.json && res.errors && res.errors.length) {
+                            reject(res.errors);
+                            return;
+                        }
+                        if (res.json && res.json.data && res.json.data.things && res.json.data.things.length) {
+                            debugger;
+                            comments = _.pluck(res.json.data.things, 'data').map(function (node) {
+                                if (typeof node.replies === 'string') node.replies = [];
+                                return node;
+                            });
+                        }
+
+                        /*update trr*/
+                        node.parentNode.replies = node.parentNode.replies
+                            .slice(0, -1)
+                            .concat(comments);
+                        self.trigger('node:modify', node.parentNode);
+
+                        resolve(self);
+                    });
+                });
+            },
+
             parse: function (node) {
                 var self = this;
-                if('data' in node && 'children' in node.data){
-                    if('count' in node.data){
+                if ('data' in node && 'children' in node.data) {
+                    if ('count' in node.data) {
                         return {
                             count: node.data.count,
                             parent_id: node.data.parent_id,
@@ -6739,20 +6934,20 @@ define('models/Comments',["backbone", "underscore", "jquery", "reddit", "const"]
                             id: node.data.id
                         }
                     }
-                    return node.data.children.map(function(child){
+                    return node.data.children.map(function (child) {
                         return self.parse(child);
                     });
-                }else if('replies' in node ){
-                    if(typeof node.replies !== 'string' && node.replies.data.children.length){
-                        node.replies = node.replies.data.children.map(function(child){
+                } else if ('replies' in node) {
+                    if (typeof node.replies !== 'string' && node.replies.data.children.length) {
+                        node.replies = node.replies.data.children.map(function (child) {
                             return self.parse(child);
                         });
-                    }else{
+                    } else {
                         node.replies = [];
                     }
 
                     return node;
-                }else{
+                } else {
 
                     return self.parse(node.data);
                 }
@@ -6769,6 +6964,39 @@ define('models/Comments',["backbone", "underscore", "jquery", "reddit", "const"]
                         return Promise.reject(new Error('No such method'));
                         break;
                 }
+            },
+
+            /**
+             *
+             * Find comment item by id
+             *
+             * @param {String} id comment id
+             * @param {Array} replies
+             * @param {Object | null} result comment item
+             * @returns {*}
+             */
+            findInTree: function (id, node, result) {
+                node = node || {replies: this.attributes.tree};
+                var self = this;
+                node.replies.some(function (leaf) {
+                    if (leaf.id == id) {
+                        leaf.parentNode = node;
+                        return result = leaf;
+                    } else if ('count' in leaf && leaf.replies.indexOf(id) > -1) {
+                        leaf.parentNode = node;
+                        return result = leaf;
+                    }
+                    return false;
+                });
+                if (result) return result;
+
+                node.replies.some(function (leaf) {
+                    if (!('count' in leaf) && leaf.replies && leaf.replies.length) {
+                        return result = self.findInTree(id, leaf, result);
+                    }
+                });
+
+                return result;
             }
         });
 
@@ -6793,11 +7021,11 @@ define('views/PostListView',["backbone", "underscore", "jquery", "tpls", "models
 
         el: '#content',
 
-        events : {
-          'click .btn-back' : 'historyBack'
+        events: {
+            'click .btn-back': 'historyBack'
         },
 
-        historyBack : function(){
+        historyBack: function () {
             window.history.back();
         },
 
@@ -6812,13 +7040,13 @@ define('views/PostListView',["backbone", "underscore", "jquery", "tpls", "models
             return this;
         },
 
-        renderNav : function(){
+        renderNav: function () {
             this.$el.find('.page-nav').html(tpls['PageNav']({
                 nav: {
-                    after : navModel.getLinkPostsAfter()
+                    after: navModel.getLinkPostsAfter()
                 },
-                after : navModel.get('after'),
-                back : window.history.length > 1 //TODO: so ugly...
+                after: navModel.get('after'),
+                back: window.history.length > 1 //TODO: so ugly...
             }));
         }
     });
@@ -6834,27 +7062,28 @@ define('views/CommentTreeView',["backbone", "underscore", "jquery", "tpls", "con
     var CommentTreeView = Backbone.View.extend({
         initialize: function (options) {
             App = options.App;
-            _.bindAll(this, 'render', 'renderPost', 'scrollTo');
+            _.bindAll(this, 'render', 'renderPost', 'scrollTo', 'updateSubtree');
             this.template = tpls['CommentList'];
             this.listenTo(this.model, 'sync', this.render);
+            this.listenTo(this.model, 'node:modify', this.updateSubtree);
         },
 
         el: '#content',
 
-        events : {
-          'click .load-mode-comments' : 'loadMoreComments',
-          'click .collapse-tree' : 'toggleTree',
-          'click .change-order' : 'changeOrder'
+        events: {
+            'click .load-mode-comments': 'loadMoreComments',
+            'click .collapse-tree': 'toggleTree',
+            'click .change-order': 'changeOrder'
         },
 
-        scrollToComment : null,
+        scrollToComment: null,
 
-        post : {},
+        post: {},
 
         render: function () {
             var data = {
                 items: this.model.tree,
-                commentOrder : this.model.get('commentOrder')
+                commentOrder: this.model.get('commentOrder')
             };
             data.orders = _.without(this.model.get('orders'), data.commentOrder);
             this.$el.html(this.template(data));
@@ -6866,47 +7095,70 @@ define('views/CommentTreeView',["backbone", "underscore", "jquery", "tpls", "con
             return this;
         },
 
-        scrollTo : function(hash){
+        scrollTo: function (hash) {
             hash = hash || this.scrollToComment;
-            if(!hash) return;
+            if (!hash) return;
             $('body').animate({
                 scrollTop: this.$el.find('#comment-' + hash).offset().top - App.$navbar.outerHeight()
             }, 1000);
         },
 
-        renderPost : function(){
+        renderPost: function () {
             this.$el.find('#post-wrapper').html(tpls['Post'](this.model.post));
         },
 
-        loadMoreComments : function(ev){
-            console.log('loadMoreComments', ev);
+        updateSubtree: function (node) {
+            console.info('update', node);
+            var subtreeHtml = '';
+            node.replies.forEach(function (leaf) {
+                subtreeHtml += tpls['Comment'](leaf);
+            });
+            this.$el
+                .find('#comment-' + node.id)
+                .find('.replies')
+                .html(subtreeHtml);
         },
 
-        changeOrder : function(ev){
+        loadMoreComments: function (ev) {
+            var id = ev.currentTarget.dataset.id;
+            if (id) {
+                this.model
+                    .morechildren(id)
+                    .then(function (res) {
+                        console.log(res);
+                    });
+            }
+        },
+
+        changeOrder: function (ev) {
             var order = ev.currentTarget.dataset.order;
-            this.model.fetch({sort:order})
+            this.model.fetch({sort: order})
         },
 
-        toggleTree : function(ev){
-            var isCollapsed = ev.currentTarget.dataset.collapsed == 'true';
-            if(isCollapsed){
-                console.log('expand');
-            }else{
-                console.log('collapse');
+        toggleTree: function (ev) {
+            var $parent = $(ev.currentTarget.parentElement);
+            var isCollapsed = $parent.hasClass('collapsed');
+            console.log($parent);
+            if (isCollapsed) {
+                $parent.removeClass('collapsed');
+            } else {
+                $parent.addClass('collapsed');
             }
         }
     });
-    return CommentTreeView ;
+    return CommentTreeView;
 });
 /**
  * Created by Sergei on 16.04.15.
  */
-define('controller',['require','app','underscore','jquery','backbone','utils','collections/Posts','models/Comments','views/PostListView','views/CommentTreeView'],function (require) {
+define('controller',['require','app','underscore','jquery','backbone','utils','sw','messages','collections/Posts','models/Comments','views/PostListView','views/CommentTreeView'],function (require) {
     var App = require("app");
     var _ = require("underscore");
     var $ = require("jquery");
     var Backbone = require("backbone");
     var utils = require("utils");
+    var sw = require("sw");
+    var msg = require("messages");
     var postsCollection = require("collections/Posts");
     var commentsModel = require("models/Comments");
 
@@ -6921,7 +7173,8 @@ define('controller',['require','app','underscore','jquery','backbone','utils','c
 
         App.postsCollection = postsCollection;
         App.commentsModel = commentsModel;
-        //App.channel.on('app:start', this.onStart);
+        App.sw = sw();
+        App.msg = msg;
     };
     Controller.prototype = {
         constructor: Controller,
@@ -6960,18 +7213,20 @@ define('controller',['require','app','underscore','jquery','backbone','utils','c
             });
 
             App.$navbar.on('keypress', '#search', function (ev) {
-                //ev.preventDefault();
                 var query = ev.currentTarget.value.trim();
                 if (query && ev.keyCode === 13) {
                     Backbone.channel.trigger('search:query', query);
-                    self.onSearch();
                     return false;
                 }
             });
 
-            App.router.on('route', function (route, params) {
-                console.info('ROUTE', route, params);
-            });
+            Backbone.channel.on('search:fetch', self.onSearch);
+
+            if (DEBUG) {
+                App.router.on('route', function (route, params) {
+                    console.info('ROUTE', route, params);
+                });
+            }
 
             //$.ajaxSetup({
             //    global : true
@@ -7010,9 +7265,6 @@ define('controller',['require','app','underscore','jquery','backbone','utils','c
             console.log('search', section, query, after);
             App.postsCollection
                 .fetch(App.navModel.toJSON())
-                .then(function (coll) {
-
-                });
         }
     };
 
@@ -7025,26 +7277,26 @@ define('controller',['require','app','underscore','jquery','backbone','utils','c
  * Created by Sergei on 14.04.15.
  */
 define('router',['require','app','backbone','controller'],function (require) {
-	var App = require("app");
-	var Backbone = require("backbone");
-	var Controller = require("controller");
+    var App = require("app");
+    var Backbone = require("backbone");
+    var Controller = require("controller");
 
     
 
-	var controller = App.controller = Controller();
+    var controller = App.controller = Controller();
 
-	var router = null;
-	var Router = Backbone.Router.extend({
-		initialize: function (options) {
+    var router = null;
+    var Router = Backbone.Router.extend({
+        initialize: function (options) {
             var self = this;
-            this.listenTo(App.navModel, 'change:search', function(){
+            this.listenTo(App.navModel, 'change:search', function () {
                 self.navigate(App.navModel._getUrl());
             })
-		},
+        },
 
-		routes: {
-			"?/:id/t/:topic": "topic",
-			"?/:id/t/:topic/c/:comment": "topicComment",
+        routes: {
+            "?/:id/t/:topic": "topic",
+            "?/:id/t/:topic/c/:comment": "topicComment",
             "?/s/:section": "rootSection",
             "?/s/:section/a/:after": "rootSection",
             "?/s/:section/q/:query": "sectionSearch",
@@ -7054,45 +7306,45 @@ define('router',['require','app','backbone','controller'],function (require) {
             "?/:id": "main",
             "?/": "root",
             "": "empty"
-		},
+        },
 
-		empty: function () {
-			console.log('empty');
-			App.navigate('/?/');
-		},
+        empty: function () {
+            console.log('empty');
+            App.navigate('/?/');
+        },
 
-		root: function () {
-            App.navModel.setState(null, App.constants.SECTIONS[0], null, null, null);
+        root: function () {
+            App.navModel.set(App.navModel.defaults());
             controller.onRedditPage(null, App.constants.SECTIONS[0], null);
-		},
+        },
 
-		rootSection: function (section, after) {
+        rootSection: function (section, after) {
             App.navModel.setState(null, section, null, after);
             controller.onRedditPage(null, section, after);
-		},
+        },
 
         sectionSearch: function (section, query, after) {
             App.navModel.setState(null, section, null, after);
-            App.navModel.set({search : query});
+            App.navModel.set({search: query});
             controller.onSearch(section, query, after);
-		},
+        },
 
 
-		main: function (id) {
+        main: function (id) {
             App.navModel.setState(id, App.constants.SECTIONS[0], null, null, null);
             controller.onRedditPage(id, App.constants.SECTIONS[0], null);
-		},
+        },
 
 
-		section: function (id, section) {
+        section: function (id, section) {
             App.navModel.setState(id, section, null, null);
-			controller.onRedditPage(id, section, null);
-		},
+            controller.onRedditPage(id, section, null);
+        },
 
-		sectionAfter: function (id, section, after) {
+        sectionAfter: function (id, section, after) {
             App.navModel.setState(id, section, null, after);
-			controller.onRedditPage(id, section, after);
-		},
+            controller.onRedditPage(id, section, after);
+        },
 
         topic: function (id, topic) {
             console.log('topic', id, topic);
@@ -7103,16 +7355,16 @@ define('router',['require','app','backbone','controller'],function (require) {
         topicComment: function (id, topic, comment) {
             console.log('topic', id, topic);
             App.navModel.setState(id, null, topic, null);
-            App.navModel.set({comment:comment});
+            App.navModel.set({comment: comment});
             controller.onRedditTopic(id, topic, comment);
         }
 
-	});
+    });
 
 
-	return function(params){
-		return router ? router : router = new Router(params);
-	};
+    return function (params) {
+        return router ? router : router = new Router(params);
+    };
 });
 
 /**
@@ -7120,13 +7372,13 @@ define('router',['require','app','backbone','controller'],function (require) {
  */
 
 define('loader',["backbone", "tpls", "underscore", "utils"],
-	function (Backbone, tpls, _, utils) {
+    function (Backbone, tpls, _, utils) {
         
 
         console.log(window.DEBUG = true);
 
         var channel = _.extend({}, Backbone.Events);
-        if(DEBUG){
+        if (DEBUG) {
             channel.on('all', function () {
                 console.info.apply(
                     console,
@@ -7136,7 +7388,7 @@ define('loader',["backbone", "tpls", "underscore", "utils"],
         }
         Backbone.channel = channel;
 
-        require(["app"], function(App){
+        require(["app"], function (App) {
             utils.extendTpls(tpls, App);
 
             App.tpls = tpls;
@@ -7147,5 +7399,5 @@ define('loader',["backbone", "tpls", "underscore", "utils"],
                 App.start();
             });
         });
-	});
+    });
 require(["loader"]);

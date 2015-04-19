@@ -84,6 +84,24 @@ define(["messages"], function (msg) {
             return this.sendMessage({
                 fn: 'getStatus'
             });
+        },
+        cacheUrls : function(urls){
+            return this.sendMessage({
+                fn: 'cacheUrls',
+                args: [urls]
+            });
+        },
+        cacheUrl : function(url){
+            return this.cacheUrls([url]);
+        },
+        deleteUrl : function(url){
+            return this.deleteUrls([url]);
+        },
+        deleteUrls : function(urls){
+            return this.sendMessage({
+                fn : 'deleteUrls',
+                args: [urls]
+            })
         }
     };
 

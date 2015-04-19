@@ -64,10 +64,11 @@ define(function (require) {
                 var query = ev.currentTarget.value.trim();
                 if (query && ev.keyCode === 13) {
                     Backbone.channel.trigger('search:query', query);
-                    self.onSearch();
                     return false;
                 }
             });
+
+            Backbone.channel.on('search:fetch', self.onSearch);
 
             App.router.on('route', function (route, params) {
                 console.info('ROUTE', route, params);
@@ -110,9 +111,6 @@ define(function (require) {
             console.log('search', section, query, after);
             App.postsCollection
                 .fetch(App.navModel.toJSON())
-                .then(function (coll) {
-
-                });
         }
     };
 

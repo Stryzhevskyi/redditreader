@@ -8,11 +8,9 @@ define(["const", "backbone", "utils"], function (constants, Backbone, utils) {
             var self = this;
             _.bindAll(this, 'updateSearch');
             this.listenTo(Backbone.channel, 'search:query', this.updateSearch);
-            this.on('change:search', function (data) {
-                if (self.previous('search') !== data.get('search')) {
-                    self.set({after: null}, {silent: true});
-                }
-            })
+            //this.on('change:search', function (data) {
+            //
+            //})
         },
 
         defaults: function () {
@@ -39,7 +37,7 @@ define(["const", "backbone", "utils"], function (constants, Backbone, utils) {
                 section: section,
                 after: after,
                 topic: topic
-            }, {silent: true});
+            }, {silent: false});
         },
 
         _getUrl: function (section, after, opt) {
@@ -57,7 +55,7 @@ define(["const", "backbone", "utils"], function (constants, Backbone, utils) {
             } else if (topic !== null) {
                 url += '/t/' + topic;
             }
-            if (search) {
+            if (search && !opt.comment) {
                 url += '/q/' + search;
             }
             if (opt.nav) return url;
@@ -74,6 +72,7 @@ define(["const", "backbone", "utils"], function (constants, Backbone, utils) {
         getNavBarObject: function () {
             var self = this;
             var topic = self.get('topic');
+            var currentSection = self.get('section') || constants.SECTIONS[0];
             if (topic) {
                 return [{
                     href: self.get('pageId'),
@@ -85,7 +84,7 @@ define(["const", "backbone", "utils"], function (constants, Backbone, utils) {
                 return {
                     href: self._getUrl(section, null, {nav: true}),
                     name: utils.capitalizeFirst(section),
-                    isCurrent: section == self.get('section')
+                    isCurrent: section == currentSection
                 }
             });
             console.log(navbarList);
@@ -102,7 +101,13 @@ define(["const", "backbone", "utils"], function (constants, Backbone, utils) {
         },
 
         updateSearch: function (query) {
-            this.set({search: query});
+            if (this.get('search') !== query) {
+                this.set(_.extend(this.defaults(), {
+                    section: this.get('section'),
+                    search: query
+                }));
+                Backbone.channel.trigger('search:fetch')
+            }
         }
     });
 

@@ -1,8 +1,8 @@
 /**
  * Created by Sergei on 16.04.15.
  */
-define(["backbone", "underscore", "jquery", "reddit"],
-    function (Backbone, _, $, reddit) {
+define(["backbone", "underscore", "jquery", "reddit", "utils"],
+    function (Backbone, _, $, reddit, utils) {
         'use strict';
 
         var Posts = Backbone.Collection.extend({
@@ -56,6 +56,10 @@ define(["backbone", "underscore", "jquery", "reddit"],
                     var thumbnail = el.data.thumbnail;
                     if (thumbnail === 'nsfw' || thumbnail === 'self' || thumbnail === 'default') {
                         el.data.thumbnailClassName = thumbnail;
+                        el.data.thumbnail = null;
+                    }
+                    if(el.data.selftext_html){
+                        el.data.selftext_html = utils.decodeHtml(el.data.selftext_html)
                     }
                     return el.data;
                 });

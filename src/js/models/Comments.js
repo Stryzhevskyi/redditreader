@@ -1,8 +1,8 @@
 /**
  * Created by Sergei on 18.04.15.
  */
-define(["backbone", "underscore", "jquery", "reddit", "const"],
-    function (Backbone, _, $, reddit, constants) {
+define(["backbone", "underscore", "jquery", "reddit", "const", "collections/Posts"],
+    function (Backbone, _, $, reddit, constants, postsCollection) {
         'use strict';
 
         var Comments = Backbone.Model.extend({
@@ -44,7 +44,7 @@ define(["backbone", "underscore", "jquery", "reddit", "const"],
                     console.log(query);
                     query.fetch(function (res) {
                         self.tree = self.parse(res[1]);
-                        self.post = res[0].data.children[0].data;
+                        self.post = postsCollection.parse(res[0])[0];
 
                         self.set({
                             tree: self.tree,

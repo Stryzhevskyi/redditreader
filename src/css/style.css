@@ -2,6 +2,10 @@ body {
     padding-top: 70px;
 }
 
+.navbar .navbar-brand {
+    font-size: 2.4em;
+}
+
 /*POST (reddit item)*/
 .thing {
     clear: both;
@@ -72,7 +76,14 @@ body {
 
 }
 .thing .thumbnail.default {
-    background-image: url("https://www.redditstatic.com/sprite-reddit.EMWQffWtZwo.png") !important;
+    background-image: url("//www.redditstatic.com/sprite-reddit.EMWQffWtZwo.png") !important;
+    background-repeat: no-repeat;
+    background-position: 0px 53%;
+    background-size: 167% !important;
+    height: 82px;
+}
+.thing .thumbnail.self {
+    background-image: url("//a.thumbs.redditmedia.com/Tqev6JXPpzFuNS7d.png") !important;
     background-repeat: no-repeat;
     background-position: 0px 53%;
     background-size: 167% !important;

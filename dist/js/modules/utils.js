@@ -13,6 +13,18 @@ define(["backbone", "underscore", "const"], function (Backbone, _, constants) {
 
     var App;
 
+    function decodeHtml(encoded, o) {
+        if (o && o.body && o.body.slice(0, 3) === '/r/') {
+            encoded = encoded.replace(regexReddit, App.rootUrl);
+        }
+        var div = document.createElement('div');
+        div.innerHTML = encoded;
+        var decoded = div.firstChild.nodeValue;
+        div = null;
+        if (encoded.indexOf('CatsAreAssholes') > -1) console.error(o);
+        return decoded;
+    }
+
     return new function () {
         var self = this;
 
@@ -35,21 +47,12 @@ define(["backbone", "underscore", "const"], function (Backbone, _, constants) {
                 return App.rootUrl + link;
             };
             tpls.$fragment = Backbone.history.fragment;
-            tpls.$decode = function (encoded, o) {
-                if (o.body.slice(0, 3) === '/r/') {
-                    encoded = encoded.replace(regexReddit, App.rootUrl);
-                }
-                var div = document.createElement('div');
-                div.innerHTML = encoded;
-                var decoded = div.firstChild.nodeValue;
-                div = null;
-                if (encoded.indexOf('CatsAreAssholes') > -1) console.error(o);
-                return decoded;
-            };
+            tpls.$decode = decodeHtml;
 
             tpls.$permalink = function (hash) {
                 return App.navModel.getPermalink(hash)
             };
+            self.decodeHtml = decodeHtml;
         };
 
 

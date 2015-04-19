@@ -39,7 +39,7 @@ define(function (require) {
         },
 
         root: function () {
-            App.navModel.setState(null, App.constants.SECTIONS[0], null, null, null);
+            App.navModel.set(App.navModel.defaults());
             controller.onRedditPage(null, App.constants.SECTIONS[0], null);
         },
 

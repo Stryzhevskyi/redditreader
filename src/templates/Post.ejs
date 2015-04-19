@@ -5,11 +5,15 @@
     <img src="{{= o.thumbnail }}" class="thumbnail"/>
     {{ } }}
     <div class="description">
-        <span class="title">
+        <strong class="title">
             {{= o.title }}
             <strong class="score hidden-lg">({{= o.score }})</strong>
-        </span>
+        </strong>
         <br/>
+
+        {{ if(o.selftext_html){ }}
+        {{= o.selftext_html }}
+        {{ } }}
 
         <span class="details text-muted">
             submitted {{= $$.$utils.timeDiff(o.created) }} by

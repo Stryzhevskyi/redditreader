@@ -7,6 +7,8 @@ define(function (require) {
     var $ = require("jquery");
     var Backbone = require("backbone");
     var utils = require("utils");
+    var sw = require("sw");
+    var msg = require("messages");
     var postsCollection = require("collections/Posts");
     var commentsModel = require("models/Comments");
 
@@ -21,7 +23,8 @@ define(function (require) {
 
         App.postsCollection = postsCollection;
         App.commentsModel = commentsModel;
-        //App.channel.on('app:start', this.onStart);
+        App.sw = sw();
+        App.msg = msg;
     };
     Controller.prototype = {
         constructor: Controller,
@@ -69,9 +72,11 @@ define(function (require) {
 
             Backbone.channel.on('search:fetch', self.onSearch);
 
-            App.router.on('route', function (route, params) {
-                console.info('ROUTE', route, params);
-            });
+            if (DEBUG) {
+                App.router.on('route', function (route, params) {
+                    console.info('ROUTE', route, params);
+                });
+            }
 
             //$.ajaxSetup({
             //    global : true

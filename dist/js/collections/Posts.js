@@ -59,7 +59,7 @@ define(["backbone", "underscore", "jquery", "reddit", "utils"],
                         el.data.thumbnailClassName = thumbnail;
                         el.data.thumbnail = null;
                     }
-                    if(el.data.selftext_html){
+                    if (el.data.selftext_html) {
                         el.data.selftext_html = utils.decodeHtml(el.data.selftext_html)
                     }
                     return el.data;

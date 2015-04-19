@@ -33,7 +33,8 @@ gulp.task('libs_css', function () {
             'bower_components/bootstrap/dist/css/bootstrap.min.css',
             'bower_components/bootstrap-material-design/dist/css/roboto.min.css',
             'bower_components/bootstrap-material-design/dist/css/material-fullpalette.min.css',
-            'bower_components/bootstrap-material-design/dist/css/ripples.min.css'
+            'bower_components/bootstrap-material-design/dist/css/ripples.min.css',
+            'bower_components/snackbarjs/dist/snackbar.min.css'
         ])
         .pipe(concat('libs.css'))
         .pipe(gulp.dest('dist/css/'));

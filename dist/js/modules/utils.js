@@ -54,39 +54,6 @@ define(["backbone", "underscore", "const", "reddit"], function (Backbone, _, con
             self.decodeHtml = decodeHtml;
         };
 
-        self.extendReddit = function(){
-            /**
-             *
-             * @param {Object} comment
-             */
-            //reddit.morechildren = function(comment){
-            //    var url = "https://www.reddit.com/api/morechildren.json";
-            //    $.ajax({
-            //        dataType: "json",
-            //        url: url,
-            //        data: {
-            //            link_id: comment.id,
-            //            children: comment.replies.join(',')
-            //        }
-            //    });
-            //}
-        };
-
-
-        self.registerServiceWorker = function () {
-            if ('serviceWorker' in navigator) {
-                navigator.serviceWorker.register('sw.js', {
-                    //scope : '/dist/'
-                }).then(function (registration) {
-                    console.log('ServiceWorker registration successful with scope: ', registration.scope);
-                }).catch(function (err) {
-                    console.error('ServiceWorker registration failed: ', err);
-                });
-            } else {
-                alert('ServiceWorket is not supported, close your old browser!');
-            }
-        };
-
         self.capitalizeFirst = function (str) {
             return str.charAt(0).toUpperCase() + str.slice(1);
         };

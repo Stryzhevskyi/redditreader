@@ -60,21 +60,21 @@ define(["backbone", "underscore", "jquery", "reddit", "const", "collections/Post
                 });
             },
 
-            morechildren : function(id){
+            morechildren: function (id) {
                 var self = this,
                     node = this.findInTree(id),
                     subreddit = this.get('post').name;
                 console.log(id, node);
-                return new Promise(function(resolve, reject){
-                    reddit.morechildren(node, subreddit).fetch(function(res){
+                return new Promise(function (resolve, reject) {
+                    reddit.morechildren(node, subreddit).fetch(function (res) {
                         var comments = [];
-                        if(res.json && res.errors && res.errors.length){
+                        if (res.json && res.errors && res.errors.length) {
                             reject(res.errors);
                             return;
                         }
-                        if(res.json && res.json.data && res.json.data.things && res.json.data.things.length){
+                        if (res.json && res.json.data && res.json.data.things && res.json.data.things.length) {
                             debugger;
-                            comments = _.pluck(res.json.data.things, 'data').map(function(node){
+                            comments = _.pluck(res.json.data.things, 'data').map(function (node) {
                                 if (typeof node.replies === 'string') node.replies = [];
                                 return node;
                             });
@@ -82,7 +82,7 @@ define(["backbone", "underscore", "jquery", "reddit", "const", "collections/Post
 
                         /*update trr*/
                         node.parentNode.replies = node.parentNode.replies
-                            .slice(0,-1)
+                            .slice(0, -1)
                             .concat(comments);
                         self.trigger('node:modify', node.parentNode);
 
@@ -145,7 +145,7 @@ define(["backbone", "underscore", "jquery", "reddit", "const", "collections/Post
              * @returns {*}
              */
             findInTree: function (id, node, result) {
-                node = node || {replies : this.attributes.tree};
+                node = node || {replies: this.attributes.tree};
                 var self = this;
                 node.replies.some(function (leaf) {
                     if (leaf.id == id) {

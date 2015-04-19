@@ -53,24 +53,24 @@ define(["backbone", "underscore", "jquery", "tpls", "const", "utils"], function 
             this.$el.find('#post-wrapper').html(tpls['Post'](this.model.post));
         },
 
-        updateSubtree : function(node){
-            console.info('update',node);
+        updateSubtree: function (node) {
+            console.info('update', node);
             var subtreeHtml = '';
-            node.replies.forEach(function(leaf){
-               subtreeHtml += tpls['Comment'](leaf);
+            node.replies.forEach(function (leaf) {
+                subtreeHtml += tpls['Comment'](leaf);
             });
             this.$el
-                .find('#comment-'+node.id)
+                .find('#comment-' + node.id)
                 .find('.replies')
                 .html(subtreeHtml);
         },
 
         loadMoreComments: function (ev) {
             var id = ev.currentTarget.dataset.id;
-            if(id){
+            if (id) {
                 this.model
                     .morechildren(id)
-                    .then(function(res){
+                    .then(function (res) {
                         console.log(res);
                     });
             }

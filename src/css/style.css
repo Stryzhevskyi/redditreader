@@ -3,6 +3,19 @@ body {
     overflow-x: hidden;
 }
 
+.app-preloader {
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    height: 60px;
+}
+
+.app-preloader .progress {
+    width: 100%;
+    height: 50px;
+}
+
 .navbar .navbar-brand {
     font-size: 2.4em;
 }
@@ -62,8 +75,6 @@ body {
     align-self: stretch;
 }
 
-
-
 .thing .thumbnail-wrapper {
     margin: 0;
     padding: 0;
@@ -78,6 +89,7 @@ body {
     -ms-flex-item-align: stretch;
     align-self: stretch;
 }
+
 .thing .thumbnail {
     background-size: cover !important;
     margin: 0;
@@ -124,7 +136,7 @@ body {
     position: relative;
 }
 
-.comment-item.collapsed{
+.comment-item.collapsed {
     height: 1.5em;
     overflow: hidden;
     transition: height 0.5s ease-out;
@@ -157,16 +169,6 @@ body {
     padding-left: 8px;
 }
 
-/*.comment-list .comment-item.full-list:before {*/
-    /*position: absolute;*/
-    /*content: " ";*/
-    /*top: 16px;*/
-    /*left: 6px;*/
-    /*bottom: -12px;*/
-    /*width: 1px;*/
-    /*background: #A69D9D;*/
-/*}*/
-
 .comment-list .comment-item.full-list {
     box-shadow: -1px 0px 0px 0px rgb(199, 194, 194);
 }
@@ -179,4 +181,30 @@ body {
     height: 4px;
     width: 100%;
     z-index: 1031;
+}
+
+/*messages*/
+#snackbar-container .info-message {
+    color: #ffffff;
+    background: #03a9f4;
+}
+
+#snackbar-container .success-message {
+    color: #ffffff;
+    background: #009688;
+}
+
+#snackbar-container .log-message {
+    color: #ffffff;
+    background: #777;
+}
+
+#snackbar-container .warn-message {
+    color: #ffffff;
+    background: #ff5722;
+}
+
+#snackbar-container .error-message {
+    color: #ffffff;
+    background: #f44336;
 }

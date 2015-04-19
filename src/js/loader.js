@@ -21,6 +21,7 @@ define(["backbone", "tpls", "underscore", "utils"],
 
         require(["app"], function (App) {
             utils.extendTpls(tpls, App);
+            utils.extendReddit();
 
             App.tpls = tpls;
             App.utils = utils;

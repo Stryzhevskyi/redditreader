@@ -1,0 +1,24 @@
+#!/bin/bash
+
+INK=inkscape
+DIST=$PWD/dist
+if [[ -z "$1" ]]
+then
+    echo "PNG file needed."
+    exit;
+fi
+
+BASE=`basename "$1" .png`
+PNG="$1"
+
+# favicon
+$INK -z -C -e "$DIST/favicon.ico" -f 	$PNG -w 16 -h 16
+
+echo $DIST/img/$BASE-xs.png
+
+# Web App
+$INK -z -C -e "$DIST/img/$BASE-xs.png" -f 	$PNG -w 57 -h 57
+$INK -z -C -e "$DIST/img/$BASE-sm.png" -f 	$PNG -w 114 -h 114
+$INK -z -C -e "$DIST/img/$BASE-md.png" -f 	$PNG -w 128 -h 128
+$INK -z -C -e "$DIST/img/$BASE-lg.png" -f 	$PNG -w 192 -h 192
+

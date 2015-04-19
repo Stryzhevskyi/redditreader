@@ -1,8 +1,14 @@
 <article class="thing sample shadow-z-1" id="{{= o.id }}">
     {{ if(o.thumbnailClassName){ }}
-    <div class="thumbnail {{= o.thumbnailClassName }}"></div>
+    <a href="{{= o.url }}" class="thumbnail {{= o.thumbnailClassName }}"></a>
     {{ }else if(o.thumbnail){ }}
-    <img src="{{= o.thumbnail }}" class="thumbnail"/>
+    <a  href="{{= o.url }}" class="thumbnail-wrapper">
+        <img src="{{= o.thumbnail }}" class="thumbnail"/>
+    </a>
+    {{ }else{ }}
+    <a  href="{{= o.url }}" class="thumbnail-wrapper">
+        <i class="mdi-content-link" title="source"></i>
+    </a>
     {{ } }}
     <div class="description">
         <strong class="title">

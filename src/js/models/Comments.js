@@ -60,6 +60,37 @@ define(["backbone", "underscore", "jquery", "reddit", "const", "collections/Post
                 });
             },
 
+            morechildren : function(id){
+                var self = this,
+                    node = this.findInTree(id),
+                    subreddit = this.get('post').name;
+                console.log(id, node);
+                return new Promise(function(resolve, reject){
+                    reddit.morechildren(node, subreddit).fetch(function(res){
+                        var comments = [];
+                        if(res.json && res.errors && res.errors.length){
+                            reject(res.errors);
+                            return;
+                        }
+                        if(res.json && res.json.data && res.json.data.things && res.json.data.things.length){
+                            debugger;
+                            comments = _.pluck(res.json.data.things, 'data').map(function(node){
+                                if (typeof node.replies === 'string') node.replies = [];
+                                return node;
+                            });
+                        }
+
+                        /*update trr*/
+                        node.parentNode.replies = node.parentNode.replies
+                            .slice(0,-1)
+                            .concat(comments);
+                        self.trigger('node:modify', node.parentNode);
+
+                        resolve(self);
+                    });
+                });
+            },
+
             parse: function (node) {
                 var self = this;
                 if ('data' in node && 'children' in node.data) {
@@ -102,6 +133,39 @@ define(["backbone", "underscore", "jquery", "reddit", "const", "collections/Post
                         return Promise.reject(new Error('No such method'));
                         break;
                 }
+            },
+
+            /**
+             *
+             * Find comment item by id
+             *
+             * @param {String} id comment id
+             * @param {Array} replies
+             * @param {Object | null} result comment item
+             * @returns {*}
+             */
+            findInTree: function (id, node, result) {
+                node = node || {replies : this.attributes.tree};
+                var self = this;
+                node.replies.some(function (leaf) {
+                    if (leaf.id == id) {
+                        leaf.parentNode = node;
+                        return result = leaf;
+                    } else if ('count' in leaf && leaf.replies.indexOf(id) > -1) {
+                        leaf.parentNode = node;
+                        return result = leaf;
+                    }
+                    return false;
+                });
+                if (result) return result;
+
+                node.replies.some(function (leaf) {
+                    if (!('count' in leaf) && leaf.replies && leaf.replies.length) {
+                        return result = self.findInTree(id, leaf, result);
+                    }
+                });
+
+                return result;
             }
         });
 

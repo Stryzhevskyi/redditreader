@@ -11,10 +11,16 @@
         -ms-flex-item-align: flex-start;
         align-self: flex-start;
     }
+
+    .page-nav a:nth-child(2){
+        float: right;
+    }
 }
 /*sm*/
 @media (min-width: 768px) and (max-width: 991px) {
-
+    .page-nav a:nth-child(2){
+        float: right;
+    }
 }
 
 /*md*/

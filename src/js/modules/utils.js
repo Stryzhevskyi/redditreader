@@ -1,7 +1,7 @@
 /**
  * Created by Sergei on 14.04.15.
  */
-define(["backbone", "underscore", "const"], function (Backbone, _, constants) {
+define(["backbone", "underscore", "const", "reddit"], function (Backbone, _, constants, reddit) {
     'use strict';
 
     var MINUTE = 60;
@@ -9,7 +9,7 @@ define(["backbone", "underscore", "const"], function (Backbone, _, constants) {
     var DAY = HOUR * 24;
     var MONTH = DAY * 30;
     var YEAR = DAY * 365;
-    var regexReddit = /\/r\//g
+    var regexReddit = /\/r\//g;
 
     var App;
 
@@ -21,7 +21,6 @@ define(["backbone", "underscore", "const"], function (Backbone, _, constants) {
         div.innerHTML = encoded;
         var decoded = div.firstChild.nodeValue;
         div = null;
-        if (encoded.indexOf('CatsAreAssholes') > -1) console.error(o);
         return decoded;
     }
 
@@ -53,6 +52,24 @@ define(["backbone", "underscore", "const"], function (Backbone, _, constants) {
                 return App.navModel.getPermalink(hash)
             };
             self.decodeHtml = decodeHtml;
+        };
+
+        self.extendReddit = function(){
+            /**
+             *
+             * @param {Object} comment
+             */
+            //reddit.morechildren = function(comment){
+            //    var url = "https://www.reddit.com/api/morechildren.json";
+            //    $.ajax({
+            //        dataType: "json",
+            //        url: url,
+            //        data: {
+            //            link_id: comment.id,
+            //            children: comment.replies.join(',')
+            //        }
+            //    });
+            //}
         };
 
 

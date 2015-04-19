@@ -41,7 +41,8 @@ define(["backbone", "underscore", "jquery", "reddit", "utils"],
                     query.fetch(function (res) {
                         console.log(res);
                         self.set(self.parse(res));
-                        self.trigger('sync', self, res.data.children, params);
+                        console.log(self.toJSON());
+                        self.trigger('sync', self);
                         Backbone.channel.trigger('posts:sync', params);
                         resolve(res);
                     }, function (error) {

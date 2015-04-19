@@ -8,9 +8,10 @@ define(["backbone", "underscore", "jquery", "tpls", "const", "utils"], function 
     var CommentTreeView = Backbone.View.extend({
         initialize: function (options) {
             App = options.App;
-            _.bindAll(this, 'render', 'renderPost', 'scrollTo');
+            _.bindAll(this, 'render', 'renderPost', 'scrollTo', 'updateSubtree');
             this.template = tpls['CommentList'];
             this.listenTo(this.model, 'sync', this.render);
+            this.listenTo(this.model, 'node:modify', this.updateSubtree);
         },
 
         el: '#content',
@@ -52,8 +53,27 @@ define(["backbone", "underscore", "jquery", "tpls", "const", "utils"], function 
             this.$el.find('#post-wrapper').html(tpls['Post'](this.model.post));
         },
 
+        updateSubtree : function(node){
+            console.info('update',node);
+            var subtreeHtml = '';
+            node.replies.forEach(function(leaf){
+               subtreeHtml += tpls['Comment'](leaf);
+            });
+            this.$el
+                .find('#comment-'+node.id)
+                .find('.replies')
+                .html(subtreeHtml);
+        },
+
         loadMoreComments: function (ev) {
-            console.log('loadMoreComments', ev);
+            var id = ev.currentTarget.dataset.id;
+            if(id){
+                this.model
+                    .morechildren(id)
+                    .then(function(res){
+                        console.log(res);
+                    });
+            }
         },
 
         changeOrder: function (ev) {
@@ -62,11 +82,13 @@ define(["backbone", "underscore", "jquery", "tpls", "const", "utils"], function 
         },
 
         toggleTree: function (ev) {
-            var isCollapsed = ev.currentTarget.dataset.collapsed == 'true';
+            var $parent = $(ev.currentTarget.parentElement);
+            var isCollapsed = $parent.hasClass('collapsed');
+            console.log($parent);
             if (isCollapsed) {
-                console.log('expand');
+                $parent.removeClass('collapsed');
             } else {
-                console.log('collapse');
+                $parent.addClass('collapsed');
             }
         }
     });

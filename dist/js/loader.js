@@ -6,13 +6,17 @@ define(["backbone", "tpls", "underscore", "utils"],
 	function (Backbone, tpls, _, utils) {
         'use strict';
 
+        window.DEBUG = true;
+
         var channel = _.extend({}, Backbone.Events);
-        channel.on('all', function () {
-            console.info.apply(
-                console,
-                ['channel : '].concat(Array.prototype.slice.call(arguments))
-            );
-        });
+        if(DEBUG){
+            channel.on('all', function () {
+                console.info.apply(
+                    console,
+                    ['channel : '].concat(Array.prototype.slice.call(arguments))
+                );
+            });
+        }
         Backbone.channel = channel;
 
         require(["app"], function(App){

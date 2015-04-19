@@ -62,7 +62,6 @@ define(function (require) {
             App.$navbar.on('keypress', '#search', function (ev) {
                 //ev.preventDefault();
                 var query = ev.currentTarget.value.trim();
-                console.log(ev, query);
                 if (query && ev.keyCode === 13) {
                     Backbone.channel.trigger('search:query', query);
                     self.onSearch();

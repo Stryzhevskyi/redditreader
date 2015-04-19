@@ -14,19 +14,19 @@ define(["backbone", "underscore", "jquery", "reddit"],
                 console.log(params);
                 var self = this;
                 return new Promise(function (resolve, reject) {
-                    if(!reddit.hasOwnProperty(params.section)){
+                    if (!reddit.hasOwnProperty(params.section)) {
                         params.section = 'hot';
                     }
-                    if(params.search){
+                    if (params.search) {
                         Backbone.channel.trigger('search:query', params.search);
                         params.sort = params.section;
                     }
                     var query;
-                    if(params.search){
+                    if (params.search) {
                         query = reddit
                             .search(params.search)
                             .sort(params.sort);
-                    }else{
+                    } else {
                         query = params.pageId
                             ? reddit[params.section](params.pageId)
                             : reddit[params.section]();
@@ -54,7 +54,7 @@ define(["backbone", "underscore", "jquery", "reddit"],
                 this.after = res.data.after;
                 return _.map(coll, function (el) {
                     var thumbnail = el.data.thumbnail;
-                    if (thumbnail === 'nsfw' || thumbnail === 'self' || thumbnail === 'default'){
+                    if (thumbnail === 'nsfw' || thumbnail === 'self' || thumbnail === 'default') {
                         el.data.thumbnailClassName = thumbnail;
                     }
                     return el.data;

@@ -15,20 +15,20 @@ define(["backbone", "underscore", "jquery", "tpls", "const", "utils"], function 
 
         el: '#content',
 
-        events : {
-          'click .load-mode-comments' : 'loadMoreComments',
-          'click .collapse-tree' : 'toggleTree',
-          'click .change-order' : 'changeOrder'
+        events: {
+            'click .load-mode-comments': 'loadMoreComments',
+            'click .collapse-tree': 'toggleTree',
+            'click .change-order': 'changeOrder'
         },
 
-        scrollToComment : null,
+        scrollToComment: null,
 
-        post : {},
+        post: {},
 
         render: function () {
             var data = {
                 items: this.model.tree,
-                commentOrder : this.model.get('commentOrder')
+                commentOrder: this.model.get('commentOrder')
             };
             data.orders = _.without(this.model.get('orders'), data.commentOrder);
             this.$el.html(this.template(data));
@@ -40,35 +40,35 @@ define(["backbone", "underscore", "jquery", "tpls", "const", "utils"], function 
             return this;
         },
 
-        scrollTo : function(hash){
+        scrollTo: function (hash) {
             hash = hash || this.scrollToComment;
-            if(!hash) return;
+            if (!hash) return;
             $('body').animate({
                 scrollTop: this.$el.find('#comment-' + hash).offset().top - App.$navbar.outerHeight()
             }, 1000);
         },
 
-        renderPost : function(){
+        renderPost: function () {
             this.$el.find('#post-wrapper').html(tpls['Post'](this.model.post));
         },
 
-        loadMoreComments : function(ev){
+        loadMoreComments: function (ev) {
             console.log('loadMoreComments', ev);
         },
 
-        changeOrder : function(ev){
+        changeOrder: function (ev) {
             var order = ev.currentTarget.dataset.order;
-            this.model.fetch({sort:order})
+            this.model.fetch({sort: order})
         },
 
-        toggleTree : function(ev){
+        toggleTree: function (ev) {
             var isCollapsed = ev.currentTarget.dataset.collapsed == 'true';
-            if(isCollapsed){
+            if (isCollapsed) {
                 console.log('expand');
-            }else{
+            } else {
                 console.log('collapse');
             }
         }
     });
-    return CommentTreeView ;
+    return CommentTreeView;
 });

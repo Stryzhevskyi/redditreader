@@ -10,19 +10,19 @@ define(["backbone", "underscore", "jquery", "reddit", "const"],
                 console.log('Comments coll init');
             },
 
-            defaults : function(){
+            defaults: function () {
                 return {
-                    commentOrder : constants.COMMENT_ORDER[0],
-                    orders : constants.COMMENT_ORDER
+                    commentOrder: constants.COMMENT_ORDER[0],
+                    orders: constants.COMMENT_ORDER
                 }
             },
 
-            post : {},
-            tree : {},
-            lastParams : {
-                section:constants.SECTIONS[0],
-                limit:200,
-                sort : constants.COMMENT_ORDER[0]
+            post: {},
+            tree: {},
+            lastParams: {
+                section: constants.SECTIONS[0],
+                limit: 200,
+                sort: constants.COMMENT_ORDER[0]
             },
 
             _fetch: function (params) {
@@ -38,7 +38,7 @@ define(["backbone", "underscore", "jquery", "reddit", "const"],
                     }
                     if (params.sort) {
                         query = query.sort(params.sort);
-                        self.set({'commentOrder':params.sort}, {silent:true});
+                        self.set({'commentOrder': params.sort}, {silent: true});
                     }
 
                     console.log(query);
@@ -47,8 +47,8 @@ define(["backbone", "underscore", "jquery", "reddit", "const"],
                         self.post = res[0].data.children[0].data;
 
                         self.set({
-                            tree : self.tree,
-                            post : self.post
+                            tree: self.tree,
+                            post: self.post
                         });
                         self.trigger('sync', self, res, params);
 
@@ -62,8 +62,8 @@ define(["backbone", "underscore", "jquery", "reddit", "const"],
 
             parse: function (node) {
                 var self = this;
-                if('data' in node && 'children' in node.data){
-                    if('count' in node.data){
+                if ('data' in node && 'children' in node.data) {
+                    if ('count' in node.data) {
                         return {
                             count: node.data.count,
                             parent_id: node.data.parent_id,
@@ -72,20 +72,20 @@ define(["backbone", "underscore", "jquery", "reddit", "const"],
                             id: node.data.id
                         }
                     }
-                    return node.data.children.map(function(child){
+                    return node.data.children.map(function (child) {
                         return self.parse(child);
                     });
-                }else if('replies' in node ){
-                    if(typeof node.replies !== 'string' && node.replies.data.children.length){
-                        node.replies = node.replies.data.children.map(function(child){
+                } else if ('replies' in node) {
+                    if (typeof node.replies !== 'string' && node.replies.data.children.length) {
+                        node.replies = node.replies.data.children.map(function (child) {
                             return self.parse(child);
                         });
-                    }else{
+                    } else {
                         node.replies = [];
                     }
 
                     return node;
-                }else{
+                } else {
 
                     return self.parse(node.data);
                 }

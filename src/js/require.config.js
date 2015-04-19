@@ -5,7 +5,7 @@
     require.config({
         'baseUrl': './js/',
         'findNestedDependencies': true,
-        'waitSeconds' : 10,
+        'waitSeconds': 10,
         'paths': {
             "jquery": '../../bower_components/jquery/dist/jquery.min',
             "bootstrap": '../../bower_components/bootstrap/dist/js/bootstrap',
@@ -15,8 +15,8 @@
             "app": 'app',
             "utils": 'modules/utils',
             "reddit": '../../bower_components/reddit.js/reddit',
-            "material" : "../../bower_components/bootstrap-material-design/dist/js/material.min",
-            "ripples" : "../../bower_components/bootstrap-material-design/dist/js/ripples.min"
+            "material": "../../bower_components/bootstrap-material-design/dist/js/material.min",
+            "ripples": "../../bower_components/bootstrap-material-design/dist/js/ripples.min"
         },
         shim: {
             "reddit": {

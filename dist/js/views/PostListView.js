@@ -17,11 +17,11 @@ define(["backbone", "underscore", "jquery", "tpls", "models/NavModel"], function
 
         el: '#content',
 
-        events : {
-          'click .btn-back' : 'historyBack'
+        events: {
+            'click .btn-back': 'historyBack'
         },
 
-        historyBack : function(){
+        historyBack: function () {
             window.history.back();
         },
 
@@ -36,13 +36,13 @@ define(["backbone", "underscore", "jquery", "tpls", "models/NavModel"], function
             return this;
         },
 
-        renderNav : function(){
+        renderNav: function () {
             this.$el.find('.page-nav').html(tpls['PageNav']({
                 nav: {
-                    after : navModel.getLinkPostsAfter()
+                    after: navModel.getLinkPostsAfter()
                 },
-                after : navModel.get('after'),
-                back : window.history.length > 1 //TODO: so ugly...
+                after: navModel.get('after'),
+                back: window.history.length > 1 //TODO: so ugly...
             }));
         }
     });

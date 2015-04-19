@@ -36,14 +36,14 @@ define(["backbone", "underscore", "const"], function (Backbone, _, constants) {
             };
             tpls.$fragment = Backbone.history.fragment;
             tpls.$decode = function (encoded, o) {
-                if(o.body.slice(0,3) === '/r/'){
+                if (o.body.slice(0, 3) === '/r/') {
                     encoded = encoded.replace(regexReddit, App.rootUrl);
                 }
                 var div = document.createElement('div');
                 div.innerHTML = encoded;
                 var decoded = div.firstChild.nodeValue;
                 div = null;
-                if(encoded.indexOf('CatsAreAssholes') > -1) console.error(o);
+                if (encoded.indexOf('CatsAreAssholes') > -1) console.error(o);
                 return decoded;
             };
 

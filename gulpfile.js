@@ -7,7 +7,6 @@ var insert = require('gulp-insert');
 var copy = require('gulp-copy');
 var rename = require('gulp-rename');
 var watch = require('gulp-watch');
-var stripDebug = require('gulp-strip-debug');
 var html2tpl = require('gulp-html2tpl');
 var rjs = require('gulp-requirejs');
 var uglify = require('gulp-uglify');
@@ -32,8 +31,6 @@ gulp.task('libs_css', function () {
         .src([
             'src/css/lib/*.css',
             'bower_components/bootstrap/dist/css/bootstrap.min.css',
-            //'bower_components/bootstrap/dist/css/bootstrap-theme.min.css',
-            //'bower_components/bootstrap-material-design/dist/css/material.min.css',
             'bower_components/bootstrap-material-design/dist/css/roboto.min.css',
             'bower_components/bootstrap-material-design/dist/css/material-fullpalette.min.css',
             'bower_components/bootstrap-material-design/dist/css/ripples.min.css'
@@ -125,10 +122,6 @@ gulp.task('rbuild', function (cb) {
         include: ['requireLib'],
         out: 'build.js',
         name: 'loader',
-        //wrap: {
-        //    start: '(function() {\n"use strict";',
-        //    end: '}());'
-        //},
         insertRequire: ['loader']
     })
         .pipe(gulp.dest('./dist/'));
@@ -162,9 +155,7 @@ gulp.task('uglify', ['rbuild'], function (cb) {
     var result = UglifyJS.minify("dist/build.js", {
         outSourceMap: "build.js.map",
         output: {
-            beautify: false,
-            //quote_keys : true,
-            //max_line_len : 1000
+            beautify: false
         },
         compress: {
             sequences: true,

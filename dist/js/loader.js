@@ -3,13 +3,13 @@
  */
 
 define(["backbone", "tpls", "underscore", "utils"],
-	function (Backbone, tpls, _, utils) {
+    function (Backbone, tpls, _, utils) {
         'use strict';
 
-        window.DEBUG = true;
+        console.log(window.DEBUG = true);
 
         var channel = _.extend({}, Backbone.Events);
-        if(DEBUG){
+        if (DEBUG) {
             channel.on('all', function () {
                 console.info.apply(
                     console,
@@ -19,7 +19,7 @@ define(["backbone", "tpls", "underscore", "utils"],
         }
         Backbone.channel = channel;
 
-        require(["app"], function(App){
+        require(["app"], function (App) {
             utils.extendTpls(tpls, App);
 
             App.tpls = tpls;
@@ -30,4 +30,4 @@ define(["backbone", "tpls", "underscore", "utils"],
                 App.start();
             });
         });
-	});
+    });

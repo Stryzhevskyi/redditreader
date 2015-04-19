@@ -6353,7 +6353,9 @@ define('app',['require','backbone','const','models/NavModel'],function (require)
 		$container: null,
 		rootUrl: window.location.pathname + '?/'
 	};
-	window.App = App;
+    if(DEBUG){
+        window.App = App;
+    }
 	return App;
 });
 /**
@@ -7121,7 +7123,7 @@ define('loader',["backbone", "tpls", "underscore", "utils"],
 	function (Backbone, tpls, _, utils) {
         
 
-        window.DEBUG = true;
+        console.log(window.DEBUG = true);
 
         var channel = _.extend({}, Backbone.Events);
         if(DEBUG){

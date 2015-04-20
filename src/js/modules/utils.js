@@ -14,7 +14,7 @@ define(["backbone", "underscore", "const", "reddit"], function (Backbone, _, con
     var App;
 
     function decodeHtml(encoded, o) {
-        if (o && o.body && o.body.slice(0, 3) === '/r/') {
+        if (encoded.indexOf('/r/') > -1) {
             encoded = encoded.replace(regexReddit, App.rootUrl);
         }
         var div = document.createElement('div');

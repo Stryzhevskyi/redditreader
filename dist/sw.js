@@ -1,12 +1,3 @@
-// While overkill for this specific sample in which there is only one cache,
-// this is one best practice that can be followed in general to keep track of
-// multiple caches used by a given service worker, and keep them all versioned.
-// It maps a shorthand identifier for a cache to a specific, versioned cache name.
-
-// Note that since global state is discarded in between service worker restarts, these
-// variables will be reinitialized each time the service worker handles an event, and you
-// should not attempt to change their values inside an event handler. (Treat them as constants.)
-
 // If at any point you want to force pages that use this service worker to start using a fresh
 // cache, then increment the CACHE_VERSION value. It will kick off the service worker update
 // flow and the old cache(s) will be purged as part of the activate event handler when the
@@ -80,12 +71,15 @@
 
 'use strict';
 
-
-var CACHE_VERSION = 0;
+var FILE_NAME = 'sw.js';
+var ROOT_PATH = location.pathname.replace(FILE_NAME, '');
+var CACHE_VERSION = 3;
 var CURRENT_CACHES = {
     prefetch: 'prefetch-cache-v' + CACHE_VERSION,
     dynamic: 'dynamic-cache-v' + CACHE_VERSION
 };
+var REDDIT_CACHABLE_URL = /https?\:\/\/www\.reddit\.com\/r\/.+\.json/;
+
 var expectedCacheNames = Object.keys(CURRENT_CACHES).map(function (key) {
     return CURRENT_CACHES[key];
 });
@@ -116,14 +110,14 @@ function iterateCaches(callback, ctx, args) {
 
 self.addEventListener('install', function (event) {
     var urlsToPrefetch = [
-        './min/build.js',
-        './min/build.css',
-        '.img/icon-lg.png',
-        '.img/icon-md.png',
-        '.img/icon-sm.png',
-        '.img/icon-xs.png',
-        '.img/splash.png',
-        '.favicon.ico'
+        'min/build.js',
+        'min/build.css',
+        'img/icon-lg.png',
+        'img/icon-md.png',
+        'img/icon-sm.png',
+        'img/icon-xs.png',
+        'img/splash.png',
+        'favicon.ico'
     ];
 
     console.log('Handling install event. Resources to pre-fetch:', urlsToPrefetch, event);
@@ -142,19 +136,30 @@ self._cacheUrls = function (cacheName, urls) {
     return caches.open(CURRENT_CACHES[cacheName]).then(function (cache) {
         console.log(cache);
         return cache.addAll(urls.map(function (urlToPrefetch) {
-            return new Request(urlToPrefetch, {
-                //mode: 'no-cors'
-            });
+            return new Request(urlToPrefetch);
         })).then(function () {
             console.log('All resources have been fetched and cached.');
             return {status: 'ok'};
         });
     }).catch(function (error) {
         errors.push(error.stack);
-        // This catch() will handle any exceptions from the caches.open()/cache.addAll() steps.
         console.error('Pre-fetching failed:', error);
         return {error: error.stack};
     })
+};
+
+/**
+ *
+ * @param {String}cacheName
+ * @param {Request} request
+ * @param {Response} response
+ * @returns {Promise}
+ * @private
+ */
+self._cacheRequestResponse = function(cacheName, request, response){
+    return caches.open(CURRENT_CACHES[cacheName]).then(function(cache){
+        return cache.put(request, response);
+    });
 };
 
 self.addEventListener('activate', function (event) {
@@ -162,7 +167,6 @@ self.addEventListener('activate', function (event) {
     event.waitUntil(
         iterateCaches(function (cacheName) {
             if (expectedCacheNames.indexOf(cacheName) == -1) {
-                // If this cache name isn't present in the array of "expected" cache names, then delete it.
                 console.log('Deleting out of date cache:', cacheName);
                 return caches.delete(cacheName);
             }
@@ -172,33 +176,23 @@ self.addEventListener('activate', function (event) {
 
 self.addEventListener('fetch', function (event) {
     console.info('Fetch', event.request.url, event);
-
+    var clonerRequest = event.request.clone();
     event.respondWith(
-        // caches.match() will look for a cache entry in all of the caches available to the service worker.
-        // It's an alternative to first opening a specific named cache and then matching on that.
         caches.match(event.request).then(function (response) {
             if (response) {
                 console.log('Found response in cache:', response);
-
                 return response;
             }
-
             console.log('No response found in cache. About to fetch from network...');
-
-            // event.request will always have the proper mode set ('cors, 'no-cors', etc.) so we don't
-            // have to hardcode 'no-cors' like we do when fetch()ing in the install handler.
             return fetch(event.request).then(function (response) {
                 console.log('Response from network is:', response);
-
+                if(response.url.match(REDDIT_CACHABLE_URL) && response.status < 400){
+                    self._cacheRequestResponse('dynamic', clonerRequest, response.clone());
+                }
                 return response;
             }).catch(function (error) {
                 errors.push(error.stack);
-                // This catch() will handle exceptions thrown from the fetch() operation.
-                // Note that a HTTP error response (e.g. 404) will NOT trigger an exception.
-                // It will return a normal response object that has the appropriate error code set.
                 console.error('Fetching failed:', error);
-
-                throw error;
             });
         })
     );
@@ -211,7 +205,7 @@ self.addEventListener('message', function (event) {
     console.info('Msg:', fn, args);
     args.unshift(event);
     if (typeof self[fn] === 'function') {
-        self[fn].apply(self, args).then(function (res) {
+        return self[fn].apply(self, args).then(function (res) {
             event.ports[0].postMessage(res);
         });
     }
@@ -233,10 +227,6 @@ self.getStatus = function () {
                     return urls;
                 });
             })).then(function (urls) {
-                // event.ports[0] corresponds to the MessagePort that was transferred as part of the controlled page's
-                // call to controller.postMessage(). Therefore, event.ports[0].postMessage() will trigger the onmessage
-                // handler from the controlled page.
-                // It's up to you how to structure the messages that you send back; this is just one example.
                 console.log(urls, errors, CURRENT_CACHES);
                 resolve({
                     errors: errors,
@@ -263,7 +253,7 @@ self.cacheUrls = function (event, urls) {
 self.deleteUrls = function (event, urls) {
     return iterateCaches(function (cacheName) {
         var tasks = urls.map(function (url) {
-            var request = new Request(url, {});
+            var request = new Request(url);
             return cacheName.delete(request).then(function (success) {
                 return {
                     status: (success ? null : 'Item was not found in the cache.'),
@@ -273,4 +263,8 @@ self.deleteUrls = function (event, urls) {
         });
         return Promise.all(tasks);
     });
+};
+
+self.deleteCache = function(cacheName){
+    return caches.delete(CURRENT_CACHES[cacheName]);
 };

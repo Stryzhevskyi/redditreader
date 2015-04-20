@@ -27,9 +27,7 @@ define(["backbone", "underscore", "jquery", "reddit", "const", "collections/Post
 
             _fetch: function (params) {
                 var self = this;
-                console.log(params);
                 params = _.extend(this.lastParams, params);
-                console.log(params);
                 this.lastParams = params;
                 return new Promise(function (resolve, reject) {
                     var query = reddit.comments(params.id, params.section);
@@ -40,9 +38,11 @@ define(["backbone", "underscore", "jquery", "reddit", "const", "collections/Post
                         query = query.sort(params.sort);
                         self.set({'commentOrder': params.sort}, {silent: true});
                     }
-
-                    console.log(query);
                     query.fetch(function (res) {
+                        if(reddit.silent){
+                            resolve(res);
+                            return ;
+                        }
                         self.tree = self.parse(res[1]);
                         self.post = postsCollection.parse(res[0])[0];
 
@@ -53,7 +53,7 @@ define(["backbone", "underscore", "jquery", "reddit", "const", "collections/Post
                         self.trigger('sync', self, res, params);
 
                         Backbone.channel.trigger('comments:sync');
-                        resolve(self.attributes);
+                        resolve(self);
                     }, function (error) {
                         reject(error);
                     });

@@ -71,6 +71,7 @@ define(function (require) {
             });
 
             Backbone.channel.on('search:fetch', self.onSearch);
+            Backbone.channel.on('cache:comments', self.cacheComments);
 
             if (DEBUG) {
                 App.router.on('route', function (route, params) {
@@ -93,11 +94,12 @@ define(function (require) {
         },
 
         onRedditPage: function (id, section, after) {
+            var self = this;
             console.log('onRedditPage', arguments);
             App.postsCollection
                 .fetch(App.navModel.toJSON())
                 .then(function (coll) {
-
+                    self.cacheComments();
                 });
         },
 
@@ -115,6 +117,24 @@ define(function (require) {
             console.log('search', section, query, after);
             App.postsCollection
                 .fetch(App.navModel.toJSON())
+        },
+
+        cacheComments: function () {
+            console.log('cache!!', this);
+            reddit.silent = true;
+            var urlTasks = App.postsCollection.map(function (model) {
+                return App.commentsModel
+                    .fetch({section: model.get('subreddit'), id: model.id, limit: 200});
+            });
+            Promise.all(urlTasks).then(function (urls) {
+                console.log('cache', urls);
+               App.sw
+                   .cacheUrls(urls)
+                   .then(function(res){
+                       console.log('cached', res);
+                   });
+            });
+            reddit.silent = false;
         }
     };
 

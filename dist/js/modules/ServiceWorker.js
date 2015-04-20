@@ -102,6 +102,13 @@ define(["messages"], function (msg) {
                 fn : 'deleteUrls',
                 args: [urls]
             })
+        },
+        deleteCache : function(cacheName){
+            cacheName = cacheName || 'dynamic';
+            return this.sendMessage({
+                fn : 'deleteCache',
+                args: [cacheName]
+            })
         }
     };
 

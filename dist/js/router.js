@@ -29,6 +29,7 @@ define(function (require) {
             "?/:id/s/:section": "section",
             "?/:id/s/:section/a/:after": "sectionAfter",
             "?/:id": "main",
+            "?/:id/": "main",
             "?/": "root",
             "": "empty"
         },

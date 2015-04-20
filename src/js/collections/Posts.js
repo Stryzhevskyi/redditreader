@@ -5,6 +5,8 @@ define(["backbone", "underscore", "jquery", "reddit", "utils"],
     function (Backbone, _, $, reddit, utils) {
         'use strict';
 
+        var HTTP_REGEXP = /^http\:\/\//;
+
         var Posts = Backbone.Collection.extend({
             initialize: function () {
                 console.log('Posts coll init');
@@ -44,7 +46,7 @@ define(["backbone", "underscore", "jquery", "reddit", "utils"],
                         console.log(self.toJSON());
                         self.trigger('sync', self);
                         Backbone.channel.trigger('posts:sync', params);
-                        resolve(res);
+                        resolve(self);
                     }, function (error) {
                         reject(error);
                     });
@@ -58,6 +60,8 @@ define(["backbone", "underscore", "jquery", "reddit", "utils"],
                     if (thumbnail === 'nsfw' || thumbnail === 'self' || thumbnail === 'default') {
                         el.data.thumbnailClassName = thumbnail;
                         el.data.thumbnail = null;
+                    }else{
+                        el.data.thumbnail = thumbnail.replace(HTTP_REGEXP, 'https://');
                     }
                     if (el.data.selftext_html) {
                         el.data.selftext_html = utils.decodeHtml(el.data.selftext_html)

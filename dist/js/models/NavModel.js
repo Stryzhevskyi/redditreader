@@ -75,7 +75,7 @@ define(["const", "backbone", "utils"], function (constants, Backbone, utils) {
             var currentSection = self.get('section') || constants.SECTIONS[0];
             if (topic) {
                 return [{
-                    href: self.get('pageId'),
+                    href: '?/' + self.get('pageId'),
                     name: self.get('pageId'),
                     isCurrent: true
                 }];

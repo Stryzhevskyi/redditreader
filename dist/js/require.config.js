@@ -17,7 +17,7 @@
             "utils": 'modules/utils',
             "messages": 'modules/Messages',
             "sw": 'modules/ServiceWorker',
-            "reddit": '../../bower_components/reddit.js/reddit',
+            "reddit": 'libs/reddit-patched',
             "material": "../../bower_components/bootstrap-material-design/dist/js/material.min",
             "ripples": "../../bower_components/bootstrap-material-design/dist/js/ripples.min"
         },

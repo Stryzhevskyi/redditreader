@@ -73,7 +73,7 @@
 
 var FILE_NAME = 'sw.js';
 var ROOT_PATH = location.pathname.replace(FILE_NAME, '');
-var CACHE_VERSION = 1;
+var CACHE_VERSION = 3;
 var CURRENT_CACHES = {
     prefetch: 'prefetch-cache-v' + CACHE_VERSION,
     dynamic: 'dynamic-cache-v' + CACHE_VERSION

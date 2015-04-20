@@ -73,7 +73,7 @@
 
 var FILE_NAME = 'sw.js';
 var ROOT_PATH = location.pathname.replace(FILE_NAME, '');
-var CACHE_VERSION = 3;
+var CACHE_VERSION = 4;
 var CURRENT_CACHES = {
     prefetch: 'prefetch-cache-v' + CACHE_VERSION,
     dynamic: 'dynamic-cache-v' + CACHE_VERSION
@@ -134,7 +134,6 @@ self.addEventListener('install', function (event) {
  */
 self._cacheUrls = function (cacheName, urls) {
     return caches.open(CURRENT_CACHES[cacheName]).then(function (cache) {
-        console.log(cache);
         return cache.addAll(urls.map(function (urlToPrefetch) {
             return new Request(urlToPrefetch);
         })).then(function () {
@@ -180,10 +179,9 @@ self.addEventListener('fetch', function (event) {
     event.respondWith(
         caches.match(event.request).then(function (response) {
             if (response) {
-                console.log('Found response in cache:', response);
+                //console.log('Found response in cache:', response);
                 return response;
             }
-            console.log('No response found in cache. About to fetch from network...');
             return fetch(event.request).then(function (response) {
                 console.log('Response from network is:', response);
                 if(response.url.match(REDDIT_CACHABLE_URL) && response.status < 400){
@@ -202,7 +200,7 @@ self.addEventListener('fetch', function (event) {
 self.addEventListener('message', function (event) {
     var fn = event.data.fn,
         args = event.data.args || [];
-    console.info('Msg:', fn, args);
+    console.info('Message:', fn, args);
     args.unshift(event);
     if (typeof self[fn] === 'function') {
         return self[fn].apply(self, args).then(function (res) {
@@ -219,7 +217,6 @@ self.getStatus = function () {
             return caches.open(name);
         })).then(function (caches) {
             Promise.all(caches.map(function (cache) {
-                console.log('cache', cache);
                 return cache.keys().then(function (requests) {
                     var urls = requests.map(function (request) {
                         return request.url;
@@ -246,7 +243,6 @@ self.getStatus = function () {
 
 self.cacheUrls = function (event, urls) {
     var self = this;
-    console.log(event, urls);
     return self._cacheUrls('dynamic', urls);
 };
 
